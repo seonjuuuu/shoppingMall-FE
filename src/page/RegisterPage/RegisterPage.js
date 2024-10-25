@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -51,12 +51,18 @@ const RegisterPage = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(registrationError);
+  }, [registrationError]);
+
   return (
     <Container className="register-area">
       {registrationError && (
         <div>
           <Alert variant="danger" className="error-message">
-            {registrationError}
+            {registrationError.message ??
+              registrationError ??
+              '회원가입 오류가 발생하였습니다.'}
           </Alert>
         </div>
       )}

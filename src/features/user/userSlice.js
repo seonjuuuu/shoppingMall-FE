@@ -38,7 +38,7 @@ export const registerUser = createAsyncThunk(
           status: 'error',
         })
       );
-      return rejectWithValue(error.error);
+      return rejectWithValue(error.error ?? error.message);
     }
   }
 );
