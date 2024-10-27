@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import './style/register.style.css';
 
 import { registerUser } from '../../features/user/userSlice';
+import LoadingSpinner from '../../common/component/LoadingSpinner';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const RegisterPage = () => {
   const [passwordError, setPasswordError] = useState('');
   const [policyError, setPolicyError] = useState(false);
   const { registrationError } = useSelector((state) => state.user);
+  const [isLoading, setIsLoading] = useState(false);
 
   const register = (event) => {
     event.preventDefault();
@@ -37,11 +39,19 @@ const RegisterPage = () => {
     }
     setPasswordError('');
     setPolicyError(false);
-    dispatch(registerUser({ name, email, password, navigate }));
+    setIsLoading(true);
+
+    dispatch(registerUser({ name, email, password, navigate }))
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error('Login Error:', error);
+        setIsLoading(false);
+      });
   };
 
   const handleChange = (event) => {
-    event.preventDefault();
     let { id, value, type, checked } = event.target;
     if (id === 'confirmPassword' && passwordError) setPasswordError('');
     if (type === 'checkbox') {
@@ -53,76 +63,79 @@ const RegisterPage = () => {
   };
 
   return (
-    <Container className="register-area">
-      {registrationError && (
-        <div>
-          <Alert variant="danger" className="error-message">
-            {registrationError.message ??
-              registrationError ??
-              '회원가입 오류가 발생하였습니다.'}
-          </Alert>
-        </div>
-      )}
-      <Form onSubmit={register}>
-        <Form.Group className="mb-3">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            id="email"
-            placeholder="Enter email"
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="text"
-            id="name"
-            placeholder="Enter name"
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            id="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            id="confirmPassword"
-            placeholder="Confirm Password"
-            onChange={handleChange}
-            required
-            isInvalid={passwordError}
-          />
-          <Form.Control.Feedback type="invalid">
-            {passwordError}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Check
-            type="checkbox"
-            label="이용약관에 동의합니다"
-            id="policy"
-            onChange={handleChange}
-            isInvalid={policyError}
-            checked={formData.policy}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          회원가입
-        </Button>
-      </Form>
-    </Container>
+    <>
+      {isLoading && <LoadingSpinner />}
+      <Container className="register-area">
+        {registrationError && (
+          <div>
+            <Alert variant="danger" className="error-message">
+              {registrationError.message ??
+                registrationError ??
+                '회원가입 오류가 발생하였습니다.'}
+            </Alert>
+          </div>
+        )}
+        <Form onSubmit={register}>
+          <Form.Group className="mb-3">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              id="email"
+              placeholder="Enter email"
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="text"
+              id="name"
+              placeholder="Enter name"
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              id="password"
+              placeholder="Password"
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm Password"
+              onChange={handleChange}
+              required
+              isInvalid={passwordError}
+            />
+            <Form.Control.Feedback type="invalid">
+              {passwordError}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="checkbox"
+              label="이용약관에 동의합니다"
+              id="policy"
+              onChange={handleChange}
+              isInvalid={policyError}
+              checked={formData.policy}
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            회원가입
+          </Button>
+        </Form>
+      </Container>
+    </>
   );
 };
 

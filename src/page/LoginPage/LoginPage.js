@@ -7,6 +7,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { loginWithEmail, loginWithGoogle } from '../../features/user/userSlice';
 import { clearErrors } from '../../features/user/userSlice';
 import styles from './LoginPage.module.scss';
+import LoadingSpinner from '../../common/component/LoadingSpinner';
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const Login = () => {
@@ -15,6 +16,7 @@ const Login = () => {
   const { user, loginError } = useSelector((state) => state.user);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -31,7 +33,15 @@ const Login = () => {
 
   const handleLoginWithEmail = (event) => {
     event.preventDefault();
-    dispatch(loginWithEmail({ email, password }));
+    setIsLoading(true);
+    dispatch(loginWithEmail({ email, password }))
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error('Login Error:', error);
+        setIsLoading(false);
+      });
   };
 
   const handleGoogleLogin = async (googleData) => {
@@ -40,6 +50,7 @@ const Login = () => {
 
   return (
     <>
+      {isLoading && <LoadingSpinner />}
       <Container className={styles.loginArea}>
         {loginError && (
           <div className="error-message">
