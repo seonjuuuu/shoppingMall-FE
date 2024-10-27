@@ -1,0 +1,41 @@
+.receiptContainer {
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 8px;
+  padding: 32px 24px;
+}
+
+.receiptTitle {
+  font-size: 25px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.itemList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+}
+
+.cartTotal {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #eeeded;
+  font-size: 16px;
+}
+
+.receiptList {
+  list-style-type: none;
+  padding: 0;
+  li {
+    padding-bottom: 10px;
+  }
+}
+
+.infoText {
+  margin-top: 50px;
+  font-size: 14px;
+}

@@ -1,26 +1,41 @@
-import React from "react";
-import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router";
-import { useLocation } from "react-router-dom";
-import { currencyFormat } from "../../../utils/number";
+import React from 'react';
+import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { currencyFormat } from '../../../utils/number';
+import styles from './OrderReceipt.module.scss';
 
 const OrderReceipt = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   return (
-    <div className="receipt-container">
-      <h3 className="receipt-title">주문 내역</h3>
-      <ul className="receipt-list">
+    <div className={styles.receiptContainer}>
+      <h3 className={styles.receiptTitle}>주문 내역</h3>
+      <ul className={styles.receiptList}>
         <li>
-          <div className="display-flex space-between">
+          <div className={styles.itemList}>
+            <div>아이템이름</div>
+
+            <div>₩ 45,000</div>
+          </div>
+        </li>
+        <li>
+          <div className={styles.itemList}>
+            <div>아이템이름</div>
+
+            <div>₩ 45,000</div>
+          </div>
+        </li>
+        <li>
+          <div className={styles.itemList}>
             <div>아이템이름</div>
 
             <div>₩ 45,000</div>
           </div>
         </li>
       </ul>
-      <div className="display-flex space-between receipt-title">
+      <div className={styles.cartTotal}>
         <div>
           <strong>Total:</strong>
         </div>
@@ -38,13 +53,12 @@ const OrderReceipt = () => {
         </Button>
       )} */}
 
-      <div>
-        가능한 결제 수단 귀하가 결제 단계에 도달할 때까지 가격 및 배송료는
-        확인되지 않습니다.
-        <div>
-          30일의 반품 가능 기간, 반품 수수료 및 미수취시 발생하는 추가 배송 요금
-          읽어보기 반품 및 환불
-        </div>
+      <div className={styles.infoText}>
+        결제 단계에 도달하기 전까지는 정확한 가격과 배송료가 확정되지 않을 수
+        있습니다. <br /> 모든 구매에 대해 30일 이내 반품이 가능하며, 일부 상품의
+        경우 반품 수수료 또는 미수취 시 추가 배송 요금이 발생할 수 있습니다.
+        <br />
+        자세한 내용은 반품 및 환불 정책에서 확인해 주세요.
       </div>
     </div>
   );
