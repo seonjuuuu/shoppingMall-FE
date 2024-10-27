@@ -272,6 +272,14 @@
   display: none;
 }
 
+.userInfo {
+  text-align: center;
+  background-color: #f0f0f0;
+  padding: 10px;
+  margin: 20px 0;
+  font-size: 15px;
+}
+
 @media screen and (max-width: 63rem) {
   .hide {
     visibility: visible;

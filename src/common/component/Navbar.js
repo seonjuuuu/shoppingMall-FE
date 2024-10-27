@@ -83,6 +83,7 @@ const Navbar = ({ user }) => {
             <img width={130} src="/image/logo.png" alt="logo.png" />
           </Link>
         </div>
+        {user && <div className={styles.userInfo}>👋 {user.name} 님 </div>}
         <button className={styles.closeBtn} onClick={closeMenu}>
           &times;
         </button>
