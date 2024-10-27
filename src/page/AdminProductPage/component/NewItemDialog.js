@@ -9,6 +9,7 @@ import {
   createProduct,
   editProduct,
 } from '../../../features/product/productSlice';
+import styles from './NewItemDialog.module.scss';
 
 const InitialFormData = {
   name: '',
@@ -144,9 +145,9 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
     <Modal show={showDialog} onHide={handleClose}>
       <Modal.Header closeButton>
         {mode === 'new' ? (
-          <Modal.Title>Create New Product</Modal.Title>
+          <Modal.Title>제품 등록</Modal.Title>
         ) : (
-          <Modal.Title>Edit Product</Modal.Title>
+          <Modal.Title>제품 수정</Modal.Title>
         )}
       </Modal.Header>
       {error && (
@@ -205,7 +206,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
           </Button>
           <div className="mt-2">
             {stock.map((item, index) => (
-              <Row key={index}>
+              <Row key={index} className="mt-1">
                 <Col sm={4}>
                   <Form.Select
                     onChange={(event) =>
@@ -215,7 +216,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
                     value={item[0] ? item[0].toLowerCase() : ''}
                   >
                     <option value="" disabled selected hidden>
-                      Please Choose...
+                      선택
                     </option>
                     {SIZE.map((item, index) => (
                       <option
@@ -259,11 +260,10 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
         <Form.Group className="mb-3" controlId="Image" required>
           <Form.Label>Image</Form.Label>
           <CloudinaryUploadWidget uploadImage={uploadImage} />
-
           <img
             id="uploadedImage"
-            src={formData.image}
-            className="upload-image mt-2"
+            src={formData.image || '/image/no-image.jpg'}
+            className={styles.uploadImage}
             alt="uploadedImage"
           />
         </Form.Group>
