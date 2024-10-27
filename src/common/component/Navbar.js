@@ -159,14 +159,14 @@ const Navbar = ({ user }) => {
                   </div>
 
                   {user && user.level === 'admin' && (
-                    <div className={styles.menuItem}>
-                      <Link
-                        to="/admin/product?page=1"
-                        className={styles.linkArea}
-                      >
+                    <Link
+                      to="/admin/product?page=1"
+                      className={styles.linkArea}
+                    >
+                      <div className={styles.menuItem}>
                         <span className={styles.itemName}>관리자 페이지</span>
-                      </Link>
-                    </div>
+                      </div>
+                    </Link>
                   )}
                 </div>
               )}
