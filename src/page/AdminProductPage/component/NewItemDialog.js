@@ -316,7 +316,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
         </Row>
         {mode === 'new' ? (
           <Button variant="primary" type="submit">
-            Submit
+            등록
           </Button>
         ) : (
           <Button variant="primary" type="submit">
