@@ -4,9 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import './style/login.style.css';
 import { loginWithEmail, loginWithGoogle } from '../../features/user/userSlice';
 import { clearErrors } from '../../features/user/userSlice';
+import styles from './LoginPage.module.scss';
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const Login = () => {
@@ -40,7 +40,7 @@ const Login = () => {
 
   return (
     <>
-      <Container className="login-area">
+      <Container className={styles.loginArea}>
         {loginError && (
           <div className="error-message">
             <Alert variant="danger">
@@ -50,7 +50,7 @@ const Login = () => {
             </Alert>
           </div>
         )}
-        <Form className="login-form" onSubmit={handleLoginWithEmail}>
+        <Form className={styles.loginForm} onSubmit={handleLoginWithEmail}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
@@ -70,7 +70,7 @@ const Login = () => {
               onChange={(event) => setPassword(event.target.value)}
             />
           </Form.Group>
-          <div className="display-space-between login-button-area">
+          <div className={styles.loginButtonArea}>
             <Button variant="danger" type="submit">
               Login
             </Button>
