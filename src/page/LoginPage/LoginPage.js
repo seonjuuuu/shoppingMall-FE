@@ -17,13 +17,17 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    if (loginError) {
-      dispatch(clearErrors());
-    }
     if (user) {
+      dispatch(clearErrors());
       navigate('/');
     }
-  }, [user, loginError, dispatch, navigate]);
+  }, [user, dispatch, navigate]);
+
+  useEffect(() => {
+    if (loginError) {
+      console.error('로그인 에러:', loginError);
+    }
+  }, [loginError]);
 
   const handleLoginWithEmail = (event) => {
     event.preventDefault();
@@ -39,7 +43,11 @@ const Login = () => {
       <Container className="login-area">
         {loginError && (
           <div className="error-message">
-            <Alert variant="danger">{loginError}</Alert>
+            <Alert variant="danger">
+              {loginError.message ??
+                loginError ??
+                '로그인 오류가 발생하였습니다.'}
+            </Alert>
           </div>
         )}
         <Form className="login-form" onSubmit={handleLoginWithEmail}>
