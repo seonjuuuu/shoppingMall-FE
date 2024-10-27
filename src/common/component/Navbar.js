@@ -5,9 +5,11 @@ import {
   faBars,
   faBox,
   faSearch,
-  faShoppingBag,
   faUserShield,
+  faShoppingCart,
+  faShippingFast,
 } from '@fortawesome/free-solid-svg-icons';
+
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
@@ -57,6 +59,11 @@ const Navbar = ({ user }) => {
         className={styles.sideMenu}
         style={{ width: menuOpen ? '250px' : '0' }}
       >
+        <div className={styles.sideLogo}>
+          <Link to="/">
+            <img width={130} src="/image/logo.png" alt="logo.png" />
+          </Link>
+        </div>
         <button className={styles.closeBtn} onClick={closeMenu}>
           &times;
         </button>
@@ -64,6 +71,17 @@ const Navbar = ({ user }) => {
           {menuList.map((menu, index) => (
             <button key={index}>{menu}</button>
           ))}
+        </div>
+        <div className={styles.sideMenuBottom}>
+          {!user && <button onClick={() => navigate('/login')}>로그인</button>}
+          {user && (
+            <>
+              {user.level === 'admin' && (
+                <button onClick={() => navigate('/admin')}>관리자 계정</button>
+              )}
+              <button onClick={handleLogout}>로그아웃</button>
+            </>
+          )}
         </div>
       </div>
 
@@ -76,30 +94,37 @@ const Navbar = ({ user }) => {
         </div>
         <div className={styles.displayFlex}>
           {user ? (
-            <div onClick={handleLogout} className={styles.navIcon}>
+            <div
+              onClick={handleLogout}
+              className={`${styles.navIcon} ${styles.navItem}`}
+            >
               <FontAwesomeIcon icon={faUser} />
               {!isMobile && <span className={styles.navName}>로그아웃</span>}
             </div>
           ) : (
-            <div onClick={() => navigate('/login')} className={styles.navIcon}>
+            <div
+              onClick={() => navigate('/login')}
+              className={`${styles.navIcon} ${styles.navItem}`}
+            >
               <FontAwesomeIcon icon={faUser} />
               {!isMobile && <span className={styles.navName}>로그인</span>}
             </div>
           )}
-          <div onClick={() => navigate('/cart')} className={styles.navIcon}>
-            <FontAwesomeIcon icon={faShoppingBag} />
-            {!isMobile && (
-              <span
-                className={styles.navName}
-              >{`쇼핑백(${cartItemCount || 0})`}</span>
-            )}
+          <div
+            onClick={() => navigate('/cart')}
+            className={`${styles.navIcon}`}
+          >
+            <FontAwesomeIcon icon={faShoppingCart} />
+            {!isMobile && <span className={styles.navName}>쇼핑백</span>}
+            <span className={styles.cartNum}>{cartItemCount || 0}</span>
           </div>
+
           <div
             onClick={() => navigate('/account/purchase')}
             className={styles.navIcon}
           >
-            <FontAwesomeIcon icon={faBox} />
-            {!isMobile && <span className={styles.navName}>내 주문</span>}
+            <FontAwesomeIcon icon={faShippingFast} />
+            <span className={styles.navName}>내 주문</span>
           </div>
           {isMobile && (
             <div
@@ -110,7 +135,7 @@ const Navbar = ({ user }) => {
             </div>
           )}
           {user && user.level === 'admin' && (
-            <div className={styles.navIcon}>
+            <div className={`${styles.navIcon} ${styles.navItem}`}>
               <FontAwesomeIcon icon={faUserShield} />
               <Link to="/admin/product?page=1" className={styles.linkArea}>
                 {!isMobile && (
