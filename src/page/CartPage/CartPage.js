@@ -1,11 +1,12 @@
-import React from "react";
-import { useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import CartProductCard from "./component/CartProductCard";
-import OrderReceipt from "../PaymentPage/component/OrderReceipt";
-import "./style/cart.style.css";
-import { getCartList } from "../../features/cart/cartSlice";
+import React from 'react';
+import { useEffect } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import CartProductCard from './component/CartProductCard';
+import OrderReceipt from '../PaymentPage/component/OrderReceipt';
+import './style/cart.style.css';
+import { getCartList } from '../../features/cart/cartSlice';
+import styles from './CartPage.module.scss';
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -16,17 +17,22 @@ const CartPage = () => {
   }, []);
 
   return (
-    <Container>
-      <Row>
+    <Container className={styles.cartContainer}>
+      <Row className={styles.cartPage}>
         <Col xs={12} md={7}>
           {cartList.length > 0 ? (
             cartList.map((item) => (
               <CartProductCard item={item} key={item._id} />
             ))
           ) : (
-            <div className="text-align-center empty-bag">
-              <h2>카트가 비어있습니다.</h2>
-              <div>상품을 담아주세요!</div>
+            <div className={styles.noCart}>
+              <img
+                src="/image/no-cart.svg"
+                alt="no-cart"
+                className={styles.noCartImage}
+              />
+              <h2 className={styles.noCartText}>카트가 비어있습니다</h2>
+              <div>상품을 담아주세요</div>
             </div>
           )}
         </Col>
