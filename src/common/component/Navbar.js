@@ -8,7 +8,7 @@ import {
   faShippingFast,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
 import styles from './Navbar.module.scss';
@@ -22,6 +22,9 @@ const Navbar = ({ user }) => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const hideMenu = ['/login', '/register'].includes(location.pathname);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
@@ -182,27 +185,31 @@ const Navbar = ({ user }) => {
       <Link to="/" className={styles.navLogo}>
         <img width={200} src="/image/logo.png" alt="logo.png" />
       </Link>
-      <div className={`${styles.mobileSearch} ${styles.expanded}`}>
-        <FontAwesomeIcon
-          icon={faSearch}
-          onClick={() => setShowSearchBox(!showSearchBox)}
-        />
-        <input
-          type="text"
-          placeholder="제품검색"
-          onKeyPress={onCheckEnter}
-          className={styles.searchInput}
-        />
-      </div>
-      <div className={styles.navMenuArea}>
-        <ul className={styles.menu}>
-          {menuList.map((menu, index) => (
-            <li key={index}>
-              <a href="#">{menu}</a>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {!hideMenu && (
+        <div className={`${styles.mobileSearch} ${styles.expanded}`}>
+          <FontAwesomeIcon
+            icon={faSearch}
+            onClick={() => setShowSearchBox(!showSearchBox)}
+          />
+          <input
+            type="text"
+            placeholder="제품검색"
+            onKeyPress={onCheckEnter}
+            className={styles.searchInput}
+          />
+        </div>
+      )}
+      {!hideMenu && (
+        <div className={styles.navMenuArea}>
+          <ul className={styles.menu}>
+            {menuList.map((menu, index) => (
+              <li key={index}>
+                <a href="#">{menu}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

@@ -24,6 +24,7 @@ const RegisterPage = () => {
   const register = (event) => {
     event.preventDefault();
     const { name, email, password, confirmPassword, policy } = formData;
+
     const checkConfirmPassword = password === confirmPassword;
     if (!checkConfirmPassword) {
       setPasswordError('비밀번호 중복확인이 일치하지 않습니다.');
@@ -50,10 +51,6 @@ const RegisterPage = () => {
       setFormData({ ...formData, [id]: value });
     }
   };
-
-  useEffect(() => {
-    console.log(registrationError);
-  }, [registrationError]);
 
   return (
     <Container className="register-area">
@@ -118,9 +115,10 @@ const RegisterPage = () => {
             id="policy"
             onChange={handleChange}
             isInvalid={policyError}
+            checked={formData.policy}
           />
         </Form.Group>
-        <Button variant="danger" type="submit">
+        <Button variant="primary" type="submit">
           회원가입
         </Button>
       </Form>

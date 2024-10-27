@@ -71,16 +71,16 @@ const Login = () => {
             />
           </Form.Group>
           <div className={styles.loginButtonArea}>
-            <Button variant="danger" type="submit">
+            <Button variant="primary" type="submit">
               Login
             </Button>
-            <div>
-              아직 계정이 없으세요?<Link to="/register">회원가입 하기</Link>{' '}
+            <div className={styles.text}>
+              아직 계정이 없으세요? <Link to="/register">회원가입 하기</Link>
             </div>
           </div>
 
-          <div className="text-align-center mt-2">
-            <p>-외부 계정으로 로그인하기-</p>
+          <div className={styles.google}>
+            <p className={styles.googleText}>외부 계정으로 로그인하기</p>
             <div className="display-center">
               <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
                 <GoogleLogin
