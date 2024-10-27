@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Offcanvas, Navbar, Container } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import styles from './Sidebar.module.scss';
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -17,16 +18,16 @@ const Sidebar = () => {
         <Link to="/">
           <img width={200} src="/image/logo.png" alt="logo.png" />
         </Link>
-        <div className="sidebar-item">Admin Account</div>
-        <ul className="sidebar-area">
+        <div className={styles.sidebarItem}>Admin Account</div>
+        <ul className={styles.sidebarArea}>
           <li
-            className="sidebar-item"
+            className={styles.sidebarItem}
             onClick={() => handleSelectMenu('/admin/product?page=1')}
           >
             product
           </li>
           <li
-            className="sidebar-item"
+            className={styles.sidebarItem}
             onClick={() => handleSelectMenu('/admin/order?page=1')}
           >
             order
@@ -35,24 +36,26 @@ const Sidebar = () => {
       </div>
     );
   };
+
   return (
     <>
-      <div className="sidebar-toggle">{NavbarContent()}</div>
+      <div className={styles.sidebarToggle}>{NavbarContent()}</div>
 
-      <Navbar bg="light" expand={false} className="mobile-sidebar-toggle">
+      <Navbar bg="light" expand={false} className={styles.mobileSidebarToggle}>
         <Container fluid>
           <img width={150} src="/image/logo.png" alt="logo.png" />
           <Navbar.Brand href="#"></Navbar.Brand>
           <Navbar.Toggle
-            aria-controls={`offcanvasNavbar-expand`}
+            aria-controls="offcanvasNavbar"
             onClick={() => setShow(true)}
           />
           <Navbar.Offcanvas
-            id={`offcanvasNavbar-expand`}
-            aria-labelledby={`offcanvasNavbarLabel-expand`}
+            id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel"
             placement="start"
-            className="sidebar"
+            className={styles.sidebar}
             show={show}
+            onHide={() => setShow(false)}
           >
             <Offcanvas.Header closeButton></Offcanvas.Header>
             <Offcanvas.Body>{NavbarContent()}</Offcanvas.Body>

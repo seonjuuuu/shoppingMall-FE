@@ -1,0 +1,46 @@
+.sidebarItem {
+  color: black;
+  font-weight: bold;
+  padding: 20px 10px;
+  list-style-type: none;
+  &:hover {
+    color: white;
+    background-color: red;
+    font-weight: bold;
+  }
+}
+
+.sidebarArea {
+  padding-left: 0;
+}
+
+.sidebar {
+  max-width: 250px;
+  padding: 20px;
+  background-color: rgb(248, 249, 250);
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  padding-left: 40px;
+}
+
+.mobileSidebarToggle {
+  display: none;
+}
+
+@media screen and (max-width: 63rem) {
+  .sidebarToggle {
+    display: none;
+  }
+  .mobileSidebarToggle {
+    display: block;
+  }
+  .sidebar {
+    max-width: 100%;
+    padding: 0px;
+    /* margin-bottom: 0; */
+  }
+  .mobileSidebar {
+    max-height: 104px;
+  }
+}
