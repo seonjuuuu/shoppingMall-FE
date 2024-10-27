@@ -20,7 +20,11 @@ const Login = () => {
     if (loginError) {
       dispatch(clearErrors());
     }
-  }, [navigate]);
+    if (user) {
+      navigate('/');
+    }
+  }, [user, loginError, dispatch, navigate]);
+
   const handleLoginWithEmail = (event) => {
     event.preventDefault();
     dispatch(loginWithEmail({ email, password }));
@@ -30,9 +34,6 @@ const Login = () => {
     //구글 로그인 하기
   };
 
-  if (user) {
-    navigate('/');
-  }
   return (
     <>
       <Container className="login-area">
