@@ -17,16 +17,18 @@
     position: relative;
     font-size: 25px;
     margin-right: 20px;
-    color: #353535;
+    color: #757575;
     cursor: pointer;
     span {
       margin-left: 10px;
     }
     .menuItem {
+      cursor: pointer;
       font-size: 15px;
       padding: 15px 10px;
       margin: 0;
       .itemName {
+        color: #757575;
         margin: 0;
       }
     }
@@ -45,7 +47,7 @@
       padding: 5px;
       z-index: 100x;
       border-radius: 50%;
-      background-color: rgb(255, 119, 119);
+      background-color: rgb(251, 81, 81);
       color: #fff;
       font-size: 13px;
     }
@@ -86,13 +88,16 @@
   }
 }
 
-.searchBox,
-.landingSearchBox {
-  border-bottom: 1px solid black;
-  padding: 5px;
-  position: absolute;
-  right: 20px;
+.searchBox {
+  border-radius: 4px;
+  border: 1px solid #d0cece;
+  padding: 7px 10px;
+  font-size: 14px;
+  margin-right: 10px;
+  color: #535353;
   input {
+    width: 300px;
+    font-size: 15px;
     border: none;
     margin-left: 5px;
     background-color: #faf9f8;
@@ -101,30 +106,41 @@
     }
   }
 }
-.mobileSearchBox {
+
+.searchContainer {
+  display: flex;
+  align-items: center;
   position: relative;
-  top: 10px;
-  left: 10px;
-  .closeBtn {
-    font-size: 36px;
-    border: none;
-    background: none;
-    padding-right: 30px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  font-size: 25px;
+  margin-right: 10px;
+  color: #757575;
+  svg {
+    cursor: pointer;
+    margin-right: 10px;
   }
-  .search {
-    align-items: center;
-    .search-icon {
-      margin-left: 10px;
-    }
-    input {
-      border: none;
-      background-color: #faf9f8;
-      padding-left: 20px;
-      &:focus {
-        outline: none;
-      }
+
+  &.expanded {
+    width: 260px;
+  }
+
+  input {
+    padding: 10px 10px;
+
+    &:focus {
+      outline: none;
     }
   }
+}
+
+.searchInput {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #d0cece;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: width 0.3s ease;
 }
 
 .overlay {
@@ -245,6 +261,11 @@
 .hide {
   visibility: hidden;
 }
+
+.mobileSearch {
+  display: none;
+}
+
 @media screen and (max-width: 63rem) {
   .hide {
     visibility: visible;
@@ -268,7 +289,33 @@
   }
   .navHeader {
     margin-top: 20px;
-    margin-bottom: 30px;
+  }
+  .mobileSearch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: width 0.3s ease;
+    overflow: hidden;
+    font-size: 25px;
+    margin-right: 10px;
+    margin-top: 20px;
+    color: #757575;
+    svg {
+      margin-right: 10px;
+    }
+    &.expanded {
+      width: 100%;
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+    input {
+      width: 80%;
+      padding: 10px 20px;
+    }
+  }
+  .searchContainer {
+    display: none;
   }
 }
 

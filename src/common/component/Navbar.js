@@ -73,7 +73,6 @@ const Navbar = ({ user }) => {
         className={`${styles.overlay} ${menuOpen ? styles.active : ''}`}
         onClick={closeMenu}
       ></div>
-
       <div
         className={styles.sideMenu}
         style={{ width: menuOpen ? '250px' : '0' }}
@@ -91,6 +90,7 @@ const Navbar = ({ user }) => {
             <button key={index}>{menu}</button>
           ))}
         </div>
+
         <div className={styles.sideMenuBottom}>
           {!user && <button onClick={() => navigate('/login')}>로그인</button>}
           {user && (
@@ -113,41 +113,45 @@ const Navbar = ({ user }) => {
         </div>
         <div className={styles.displayFlex}>
           <div
+            className={`${styles.searchContainer} ${showSearchBox ? styles.expanded : ''}`}
+          >
+            <FontAwesomeIcon
+              icon={faSearch}
+              onClick={() => setShowSearchBox(!showSearchBox)}
+            />
+            {showSearchBox && (
+              <input
+                type="text"
+                placeholder="제품검색"
+                onKeyPress={onCheckEnter}
+                className={styles.searchInput}
+              />
+            )}
+          </div>
+
+          <div
             onClick={() => navigate('/cart')}
             className={`${styles.navIcon}`}
           >
             <FontAwesomeIcon icon={faShoppingCart} />
             <span className={styles.cartNum}>{cartItemCount || 0}</span>
           </div>
-
           <div
             onClick={() => navigate('/account/purchase')}
             className={styles.navIcon}
           >
             <FontAwesomeIcon icon={faShippingFast} />
           </div>
-          {isMobile && (
-            <div
-              className={styles.navIcon}
-              onClick={() => setShowSearchBox(true)}
-            >
-              <FontAwesomeIcon icon={faSearch} />
-            </div>
-          )}
           {user ? (
             <div
               className={`${styles.navIcon} ${styles.navItem}`}
               onClick={toggleProfileMenu}
             >
               <FontAwesomeIcon icon={faUser} />
-              {!isMobile && <span className={styles.navName}>{user.name}</span>}
+              <span className={styles.navName}>{user.name}</span>
 
               {profileMenuOpen && (
-                <div
-                  className={styles.profileMenu}
-                  onClick={toggleProfileMenu}
-                  ref={profileMenuRef}
-                >
+                <div className={styles.profileMenu} ref={profileMenuRef}>
                   <div className={styles.menuItem} onClick={handleLogout}>
                     <span className={styles.itemName}>로그아웃</span>
                   </div>
@@ -158,9 +162,7 @@ const Navbar = ({ user }) => {
                         to="/admin/product?page=1"
                         className={styles.linkArea}
                       >
-                        {!isMobile && (
-                          <span className={styles.itemName}>관리자 페이지</span>
-                        )}
+                        <span className={styles.itemName}>관리자 페이지</span>
                       </Link>
                     </div>
                   )}
@@ -179,33 +181,20 @@ const Navbar = ({ user }) => {
         </div>
       </div>
 
-      {showSearchBox && (
-        <div
-          className={`${styles.displaySpaceBetween} ${styles.mobileSearchBox}`}
-        >
-          <div className={`${styles.search} ${styles.displaySpaceBetween}`}>
-            <div>
-              <FontAwesomeIcon className={styles.searchIcon} icon={faSearch} />
-              <input
-                type="text"
-                placeholder="제품검색"
-                onKeyPress={onCheckEnter}
-              />
-            </div>
-            <button
-              className={styles.closeBtn}
-              onClick={() => setShowSearchBox(false)}
-            >
-              &times;
-            </button>
-          </div>
-        </div>
-      )}
-
-      <div className={styles.navLogo}>
-        <Link to="/">
-          <img width={200} src="/image/logo.png" alt="logo.png" />
-        </Link>
+      <Link to="/" className={styles.navLogo}>
+        <img width={200} src="/image/logo.png" alt="logo.png" />
+      </Link>
+      <div className={`${styles.mobileSearch} ${styles.expanded}`}>
+        <FontAwesomeIcon
+          icon={faSearch}
+          onClick={() => setShowSearchBox(!showSearchBox)}
+        />
+        <input
+          type="text"
+          placeholder="제품검색"
+          onKeyPress={onCheckEnter}
+          className={styles.searchInput}
+        />
       </div>
       <div className={styles.navMenuArea}>
         <ul className={styles.menu}>
@@ -215,16 +204,6 @@ const Navbar = ({ user }) => {
             </li>
           ))}
         </ul>
-        {!isMobile && (
-          <div className={`${styles.searchBox} ${styles.landingSearchBox}`}>
-            <FontAwesomeIcon icon={faSearch} />
-            <input
-              type="text"
-              placeholder="제품검색"
-              onKeyPress={onCheckEnter}
-            />
-          </div>
-        )}
       </div>
     </div>
   );
