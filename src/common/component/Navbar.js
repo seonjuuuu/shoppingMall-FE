@@ -98,7 +98,9 @@ const Navbar = ({ user }) => {
           {user && (
             <>
               {user.level === 'admin' && (
-                <button onClick={() => navigate('/admin')}>관리자 계정</button>
+                <button onClick={() => navigate('/admin/product?page=1')}>
+                  관리자 계정
+                </button>
               )}
               <button onClick={handleLogout}>로그아웃</button>
             </>
