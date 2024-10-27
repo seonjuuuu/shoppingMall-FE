@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -21,16 +21,35 @@ const Navbar = ({ user }) => {
   const isMobile = window.navigator.userAgent.indexOf('Mobile') !== -1;
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef(null);
   const navigate = useNavigate();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
+
+  const toggleProfileMenu = () => setProfileMenuOpen(!profileMenuOpen);
 
   const onCheckEnter = (event) => {
     if (event.key === 'Enter') {
       navigate(event.target.value === '' ? '/' : `?name=${event.target.value}`);
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target)
+      ) {
+        setProfileMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -93,29 +112,11 @@ const Navbar = ({ user }) => {
           <FontAwesomeIcon icon={faBars} />
         </div>
         <div className={styles.displayFlex}>
-          {user ? (
-            <div
-              onClick={handleLogout}
-              className={`${styles.navIcon} ${styles.navItem}`}
-            >
-              <FontAwesomeIcon icon={faUser} />
-              {!isMobile && <span className={styles.navName}>로그아웃</span>}
-            </div>
-          ) : (
-            <div
-              onClick={() => navigate('/login')}
-              className={`${styles.navIcon} ${styles.navItem}`}
-            >
-              <FontAwesomeIcon icon={faUser} />
-              {!isMobile && <span className={styles.navName}>로그인</span>}
-            </div>
-          )}
           <div
             onClick={() => navigate('/cart')}
             className={`${styles.navIcon}`}
           >
             <FontAwesomeIcon icon={faShoppingCart} />
-            {!isMobile && <span className={styles.navName}>쇼핑백</span>}
             <span className={styles.cartNum}>{cartItemCount || 0}</span>
           </div>
 
@@ -124,7 +125,6 @@ const Navbar = ({ user }) => {
             className={styles.navIcon}
           >
             <FontAwesomeIcon icon={faShippingFast} />
-            <span className={styles.navName}>내 주문</span>
           </div>
           {isMobile && (
             <div
@@ -134,14 +134,46 @@ const Navbar = ({ user }) => {
               <FontAwesomeIcon icon={faSearch} />
             </div>
           )}
-          {user && user.level === 'admin' && (
-            <div className={`${styles.navIcon} ${styles.navItem}`}>
-              <FontAwesomeIcon icon={faUserShield} />
-              <Link to="/admin/product?page=1" className={styles.linkArea}>
-                {!isMobile && (
-                  <span className={styles.navName}>관리자 페이지</span>
-                )}
-              </Link>
+          {user ? (
+            <div
+              className={`${styles.navIcon} ${styles.navItem}`}
+              onClick={toggleProfileMenu}
+            >
+              <FontAwesomeIcon icon={faUser} />
+              {!isMobile && <span className={styles.navName}>{user.name}</span>}
+
+              {profileMenuOpen && (
+                <div
+                  className={styles.profileMenu}
+                  onClick={toggleProfileMenu}
+                  ref={profileMenuRef}
+                >
+                  <div className={styles.menuItem} onClick={handleLogout}>
+                    <span className={styles.itemName}>로그아웃</span>
+                  </div>
+
+                  {user && user.level === 'admin' && (
+                    <div className={styles.menuItem}>
+                      <Link
+                        to="/admin/product?page=1"
+                        className={styles.linkArea}
+                      >
+                        {!isMobile && (
+                          <span className={styles.itemName}>관리자 페이지</span>
+                        )}
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div
+              onClick={() => navigate('/login')}
+              className={`${styles.navIcon} ${styles.navItem}`}
+            >
+              <FontAwesomeIcon icon={faUser} />
+              {!isMobile && <span className={styles.navName}>로그인</span>}
             </div>
           )}
         </div>
