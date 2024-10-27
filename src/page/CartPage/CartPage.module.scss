@@ -17,3 +17,9 @@
   margin-top: 20px;
   font-weight: 700;
 }
+
+@media screen and (max-width: 63rem) {
+  .noCart {
+    margin-bottom: 30px;
+  }
+}

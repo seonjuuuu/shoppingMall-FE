@@ -39,3 +39,9 @@
   margin-top: 50px;
   font-size: 14px;
 }
+
+@media screen and (max-width: 63rem) {
+  .receiptContainer {
+    margin-bottom: 30px;
+  }
+}
