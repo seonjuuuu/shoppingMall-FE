@@ -1,0 +1,63 @@
+.bannerContainer {
+  width: 100%;
+  max-width: 100vw;
+  height: 500px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bannerSlide {
+  position: relative;
+  width: 100%;
+
+  .bannerImage {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+  }
+
+  .bannerContent {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border-radius: 8px;
+
+    h2 {
+      font-size: 28px;
+      margin: 0 0 5px;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 0;
+    }
+  }
+}
+
+.slick-prev,
+.slick-next {
+  background-color: red;
+  width: 40px;
+  height: 40px;
+  z-index: 10;
+  &::before {
+    font-size: 40px;
+    color: white;
+  }
+}
+
+.slick-dots {
+  bottom: 10px;
+
+  li button::before {
+    font-size: 10px;
+    color: white;
+  }
+
+  .slick-active button::before {
+    color: #ff4500;
+  }
+}
