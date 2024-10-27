@@ -149,7 +149,7 @@ const Navbar = ({ user }) => {
               onClick={toggleProfileMenu}
             >
               <FontAwesomeIcon icon={faUser} />
-              <span className={styles.navName}>{user.name}</span>
+              <span className={styles.navName}>{user.name} 님</span>
 
               {profileMenuOpen && (
                 <div className={styles.profileMenu} ref={profileMenuRef}>
