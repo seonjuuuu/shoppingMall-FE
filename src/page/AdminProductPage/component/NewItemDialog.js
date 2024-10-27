@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { Form, Modal, Button, Row, Col, Alert } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import CloudinaryUploadWidget from "../../../utils/CloudinaryUploadWidget";
-import { CATEGORY, STATUS, SIZE } from "../../../constants/product.constants";
-import "../style/adminProduct.style.css";
+import React, { useState, useEffect } from 'react';
+import { Form, Modal, Button, Row, Col, Alert } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import CloudinaryUploadWidget from '../../../utils/CloudinaryUploadWidget';
+import { CATEGORY, STATUS, SIZE } from '../../../constants/product.constants';
+import '../style/adminProduct.style.css';
 import {
   clearError,
   createProduct,
   editProduct,
-} from "../../../features/product/productSlice";
+} from '../../../features/product/productSlice';
 
 const InitialFormData = {
-  name: "",
-  sku: "",
+  name: '',
+  sku: '',
   stock: {},
-  image: "",
-  description: "",
+  image: '',
+  description: '',
   category: [],
-  status: "active",
+  status: 'active',
   price: 0,
 };
 
@@ -26,7 +26,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
     (state) => state.product
   );
   const [formData, setFormData] = useState(
-    mode === "new" ? { ...InitialFormData } : selectedProduct
+    mode === 'new' ? { ...InitialFormData } : selectedProduct
   );
   const [stock, setStock] = useState([]);
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
       dispatch(clearError());
     }
     if (showDialog) {
-      if (mode === "edit") {
+      if (mode === 'edit') {
         setFormData(selectedProduct);
         // 객체형태로 온 stock을  다시 배열로 세팅해주기
         const sizeArray = Object.keys(selectedProduct.stock).map((size) => [
@@ -57,8 +57,8 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   }, [showDialog]);
 
   const handleClose = () => {
-    //모든걸 초기화시키고;
-    // 다이얼로그 닫아주기
+    setFormData({ ...InitialFormData });
+    setShowDialog(false);
   };
 
   const handleSubmit = (event) => {
@@ -66,31 +66,53 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
     //재고를 입력했는지 확인, 아니면 에러
     // 재고를 배열에서 객체로 바꿔주기
     // [['M',2]] 에서 {M:2}로
-    if (mode === "new") {
+    if (mode === 'new') {
       //새 상품 만들기
     } else {
       // 상품 수정하기
     }
   };
 
+  useEffect(() => {
+    const stockList = stock.filter((item) => item[0] !== '');
+    setFormData((prev) => ({
+      ...prev,
+      stock: stockList,
+    }));
+  }, [stock]);
+
   const handleChange = (event) => {
-    //form에 데이터 넣어주기
+    const { name, value } = event.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const addStock = () => {
-    //재고타입 추가시 배열에 새 배열 추가
+    setStock((prevStock) => [...prevStock, ['', 0]]);
   };
 
   const deleteStock = (idx) => {
-    //재고 삭제하기
+    setStock((prevStock) => {
+      const stockList = [...prevStock];
+      stockList.splice(idx, 1);
+      return stockList;
+    });
   };
-
   const handleSizeChange = (value, index) => {
-    //  재고 사이즈 변환하기
+    setStock((prevStock) =>
+      prevStock.map((item, idx) => (idx === index ? [value, item[1]] : item))
+    );
   };
 
   const handleStockChange = (value, index) => {
-    //재고 수량 변환하기
+    setStock((prevStock) =>
+      prevStock.map((item, idx) =>
+        idx === index ? [item[0], Number(value)] : item
+      )
+    );
   };
 
   const onHandleCategory = (event) => {
@@ -117,7 +139,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   return (
     <Modal show={showDialog} onHide={handleClose}>
       <Modal.Header closeButton>
-        {mode === "new" ? (
+        {mode === 'new' ? (
           <Modal.Title>Create New Product</Modal.Title>
         ) : (
           <Modal.Title>Edit Product</Modal.Title>
@@ -138,6 +160,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
               placeholder="Enter Sku"
               required
               value={formData.sku}
+              name="sku"
             />
           </Form.Group>
 
@@ -149,6 +172,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
               placeholder="Name"
               required
               value={formData.name}
+              name="name"
             />
           </Form.Group>
         </Row>
@@ -162,6 +186,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
             onChange={handleChange}
             rows={3}
             value={formData.description}
+            name="description"
             required
           />
         </Form.Group>
@@ -183,7 +208,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
                       handleSizeChange(event.target.value, index)
                     }
                     required
-                    defaultValue={item[0] ? item[0].toLowerCase() : ""}
+                    value={item[0] ? item[0].toLowerCase() : ''}
                   >
                     <option value="" disabled selected hidden>
                       Please Choose...
@@ -248,6 +273,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
               onChange={handleChange}
               type="number"
               placeholder="0"
+              name="price"
             />
           </Form.Group>
 
@@ -273,6 +299,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
             <Form.Select
               value={formData.status}
               onChange={handleChange}
+              name="status"
               required
             >
               {STATUS.map((item, idx) => (
@@ -283,7 +310,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
             </Form.Select>
           </Form.Group>
         </Row>
-        {mode === "new" ? (
+        {mode === 'new' ? (
           <Button variant="primary" type="submit">
             Submit
           </Button>
