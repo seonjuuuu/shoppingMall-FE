@@ -1,10 +1,11 @@
-import React from "react";
-import { useEffect } from "react";
-import { Container } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import OrderStatusCard from "./component/OrderStatusCard";
-import "./style/orderStatus.style.css";
-import { getOrder } from "../../features/order/orderSlice";
+import React from 'react';
+import { useEffect } from 'react';
+import { Container } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import OrderStatusCard from './component/OrderStatusCard';
+import './style/orderStatus.style.css';
+import { getOrder } from '../../features/order/orderSlice';
+import styles from './MyPage.module.scss';
 
 const MyPage = () => {
   const dispatch = useDispatch();
@@ -16,8 +17,13 @@ const MyPage = () => {
 
   if (orderList?.length === 0) {
     return (
-      <Container className="no-order-box">
-        <div>진행중인 주문이 없습니다.</div>
+      <Container className={styles.noOrderBox}>
+        <img
+          src="/image/no-process.svg"
+          alt="no-data"
+          className={styles.noOrderImage}
+        />
+        <div className={styles.noOrderText}>진행중인 주문이 없습니다</div>
       </Container>
     );
   }

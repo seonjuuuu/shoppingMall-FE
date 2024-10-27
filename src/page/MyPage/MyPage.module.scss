@@ -1,0 +1,18 @@
+.noOrderBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+  height: 500px;
+}
+
+.noOrderImage {
+  width: 240px;
+}
+
+.noOrderText {
+  margin-top: 20px;
+  font-size: 15px;
+}
