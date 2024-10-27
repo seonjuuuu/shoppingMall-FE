@@ -4,8 +4,10 @@
   padding: 20px 10px;
   list-style-type: none;
   &:hover {
+    border-radius: 5px;
+    cursor: pointer;
     color: white;
-    background-color: red;
+    background-color: rgb(254, 188, 5);
     font-weight: bold;
   }
 }
@@ -27,8 +29,24 @@
 .mobileSidebarToggle {
   display: none;
 }
+.list {
+  max-width: 250px;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  height: 100vh;
+  padding: 10px;
+}
 
-@media screen and (max-width: 63rem) {
+.logo {
+  width: 100%;
+  max-width: 200px;
+}
+
+@media screen and (max-width: 767px) {
+  .list {
+    box-shadow: none;
+  }
   .sidebarToggle {
     display: none;
   }
@@ -36,7 +54,6 @@
     display: block;
   }
   .sidebar {
-    max-width: 100%;
     padding: 0px;
     /* margin-bottom: 0; */
   }

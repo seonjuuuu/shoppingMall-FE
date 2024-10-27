@@ -14,9 +14,9 @@ const Sidebar = () => {
 
   const NavbarContent = () => {
     return (
-      <div>
+      <div className={styles.list}>
         <Link to="/">
-          <img width={200} src="/image/logo.png" alt="logo.png" />
+          <img className={styles.logo} src="/image/logo.png" alt="logo.png" />
         </Link>
         <div className={styles.sidebarItem}>Admin Account</div>
         <ul className={styles.sidebarArea}>
@@ -43,7 +43,9 @@ const Sidebar = () => {
 
       <Navbar bg="light" expand={false} className={styles.mobileSidebarToggle}>
         <Container fluid>
-          <img width={150} src="/image/logo.png" alt="logo.png" />
+          <Link to="/">
+            <img width={150} src="/image/logo.png" alt="logo.png" />
+          </Link>
           <Navbar.Brand href="#"></Navbar.Brand>
           <Navbar.Toggle
             aria-controls="offcanvasNavbar"
