@@ -133,8 +133,12 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   };
 
   const uploadImage = (url) => {
-    //이미지 업로드
+    setFormData({ ...formData, image: url });
   };
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   return (
     <Modal show={showDialog} onHide={handleClose}>
@@ -257,11 +261,11 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
           <CloudinaryUploadWidget uploadImage={uploadImage} />
 
           <img
-            id="uploadedimage"
+            id="uploadedImage"
             src={formData.image}
             className="upload-image mt-2"
-            alt="uploadedimage"
-          ></img>
+            alt="uploadedImage"
+          />
         </Form.Group>
 
         <Row className="mb-3">
