@@ -11,6 +11,7 @@ import {
   deleteProduct,
   setSelectedProduct,
 } from '../../features/product/productSlice';
+import styles from './AdminProductPage.module.scss';
 
 const AdminProductPage = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const AdminProductPage = () => {
     'Stock',
     'Image',
     'Status',
-    '',
+    '삭제/수정',
   ];
 
   useEffect(() => {
@@ -70,9 +71,9 @@ const AdminProductPage = () => {
   };
 
   return (
-    <div className="locate-center">
+    <div className={styles.locateCenter}>
       <Container>
-        <div className="mt-2">
+        <div className={styles.searchBox}>
           <SearchBox
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
@@ -80,7 +81,7 @@ const AdminProductPage = () => {
             field="name"
           />
         </div>
-        <Button className="mt-2 mb-2" onClick={handleClickNewItem}>
+        <Button className={styles.addButton} onClick={handleClickNewItem}>
           아이템 등록 +
         </Button>
 
@@ -91,25 +92,25 @@ const AdminProductPage = () => {
           openEditForm={openEditForm}
         />
         <ReactPaginate
-          nextLabel="next >"
+          nextLabel=">"
           onPageChange={handlePageClick}
           pageRangeDisplayed={5}
           pageCount={totalPageNum}
           forcePage={searchQuery.page - 1}
-          previousLabel="< previous"
+          previousLabel="<"
           renderOnZeroPageCount={null}
-          pageClassName="page-item"
-          pageLinkClassName="page-link"
-          previousClassName="page-item"
-          previousLinkClassName="page-link"
-          nextClassName="page-item"
-          nextLinkClassName="page-link"
+          pageClassName={styles.pageItem}
+          pageLinkClassName={styles.pageLink}
+          previousClassName={styles.pageItem}
+          previousLinkClassName={styles.pageLink}
+          nextClassName={styles.pageItem}
+          nextLinkClassName={styles.pageLink}
           breakLabel="..."
-          breakClassName="page-item"
-          breakLinkClassName="page-link"
-          containerClassName="pagination"
-          activeClassName="active"
-          className="display-center list-style-none"
+          breakClassName={styles.pageItem}
+          breakLinkClassName={styles.pageLink}
+          containerClassName={styles.pagination}
+          activeClassName={styles.active}
+          className={styles.paging}
         />
       </Container>
 

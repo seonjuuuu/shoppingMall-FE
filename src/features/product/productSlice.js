@@ -26,8 +26,9 @@ export const createProduct = createAsyncThunk(
     try {
       const res = await api.post('/product', formData);
       dispatch(
-        showToastMessage({ message: '상품생성 완료', status: 'success' })
+        showToastMessage({ message: '상품 등록 완료', status: 'success' })
       );
+      dispatch(getProductList());
       return res.data;
     } catch (error) {
       return rejectWithValue(error.error ?? error.message);
@@ -45,6 +46,9 @@ export const editProduct = createAsyncThunk(
   async ({ id, ...formData }, { dispatch, rejectWithValue }) => {
     try {
       const res = await api.put(`/product/${id}`, formData);
+      dispatch(
+        showToastMessage({ message: '상품 수정 완료', status: 'success' })
+      );
       dispatch(getProductList());
       return res.data;
     } catch (error) {
