@@ -1,0 +1,13 @@
+.searchBox {
+  border-bottom: 1px solid black;
+  padding: 5px;
+  input {
+    width: 80%;
+    padding: 15px;
+    border: none;
+    margin-left: 5px;
+    &:focus {
+      outline: none;
+    }
+  }
+}
