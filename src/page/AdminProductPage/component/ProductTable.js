@@ -28,6 +28,7 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
                 <th>{item.sku}</th>
                 <th style={{ minWidth: '100px' }}>{item.name}</th>
                 <th>{currencyFormat(item.price)}</th>
+                <th>{currencyFormat(item.discountPrice)}</th>
                 <th>
                   {Object.keys(item.stock).map((size, index) => (
                     <div key={index}>

@@ -20,6 +20,7 @@ const InitialFormData = {
   category: [],
   status: 'active',
   price: 0,
+  discountPrice: 0,
 };
 
 const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
@@ -73,12 +74,17 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
       return { ...total, [item[0]]: parseInt(item[1]) };
     }, {});
 
+    const updatedFormData = {
+      ...formData,
+      discountPrice:
+        formData.discountPrice === 0 ? formData.price : formData.discountPrice,
+      stock: totalStock,
+    };
+
     if (mode === 'new') {
-      dispatch(createProduct({ ...formData, stock: totalStock }));
+      dispatch(createProduct(updatedFormData));
     } else {
-      dispatch(
-        editProduct({ ...formData, stock: totalStock, id: selectedProduct._id })
-      );
+      dispatch(editProduct({ ...updatedFormData, id: selectedProduct._id }));
     }
   };
 
@@ -287,7 +293,24 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
               name="price"
             />
           </Form.Group>
-
+          <Form.Group as={Col} controlId="discountPrice">
+            <Form.Label>
+              Discount Price
+              <span className={styles.info}>
+                * 미입력시 자동으로 기본가격 셋팅 *
+              </span>
+            </Form.Label>
+            <Form.Control
+              value={formData.discountPrice}
+              required
+              onChange={handleChange}
+              type="number"
+              placeholder="0"
+              name="discountPrice"
+            />
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
           <Form.Group as={Col} controlId="category">
             <Form.Label>Category</Form.Label>
             <Form.Control

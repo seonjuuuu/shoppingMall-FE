@@ -21,14 +21,16 @@ const LandingPage = () => {
   }, [query]);
 
   return (
-    <Container>
+    <Container className={styles.landingPage}>
       <Row>
         {productList.length > 0 ? (
-          productList.map((item) => (
-            <Col md={3} sm={12} key={item._id}>
-              <ProductCard item={item} />
-            </Col>
-          ))
+          productList
+            .filter((item) => item.status === 'active')
+            .map((item) => (
+              <Col md={3} sm={12} key={item._id}>
+                <ProductCard item={item} />
+              </Col>
+            ))
         ) : (
           <div className={styles.productText}>
             <img
@@ -40,7 +42,7 @@ const LandingPage = () => {
               <div className={styles.noProduct}>등록된 상품이 없습니다!</div>
             ) : (
               <div className={styles.noProduct}>
-                {name || '검색'}과 일치한 상품이 없습니다!
+                "{name || '검색'}"와 일치한 상품이 없습니다!
               </div>
             )}
           </div>

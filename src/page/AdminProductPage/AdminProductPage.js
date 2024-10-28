@@ -29,11 +29,12 @@ const AdminProductPage = () => {
   const tableHeader = [
     '#',
     'Sku',
-    'Name',
-    'Price',
-    'Stock',
-    'Image',
-    'Status',
+    '이름',
+    '가격',
+    '할인금액',
+    '재고',
+    '이미지',
+    '상태',
     '삭제/수정',
   ];
 
