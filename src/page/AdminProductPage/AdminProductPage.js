@@ -21,7 +21,7 @@ const AdminProductPage = () => {
   const [searchQuery, setSearchQuery] = useState({
     page: query.get('page') || 1,
     name: query.get('name') || '',
-  }); //검색 조건들을 저장하는 객체
+  });
 
   const [mode, setMode] = useState('new');
 
@@ -41,7 +41,6 @@ const AdminProductPage = () => {
   }, [query]);
 
   useEffect(() => {
-    //검색어나 페이지가 바뀌면 url바꿔주기 (검색어또는 페이지가 바뀜 => url 바꿔줌=> url쿼리 읽어옴=> 이 쿼리값 맞춰서  상품리스트 가져오기)
     if (searchQuery.name === '') {
       delete searchQuery.name;
     }
@@ -56,11 +55,9 @@ const AdminProductPage = () => {
   };
 
   const openEditForm = (product) => {
-    //edit모드로 설정하고
     setMode('edit');
     dispatch(setSelectedProduct(product));
     setShowDialog(true);
-    // 아이템 수정다이얼로그 열어주기
   };
 
   const handleClickNewItem = () => {
@@ -70,7 +67,6 @@ const AdminProductPage = () => {
 
   const handlePageClick = ({ selected }) => {
     setSearchQuery({ ...searchQuery, page: selected + 1 });
-    //  쿼리에 페이지값 바꿔주기
   };
 
   return (
@@ -85,7 +81,7 @@ const AdminProductPage = () => {
           />
         </div>
         <Button className="mt-2 mb-2" onClick={handleClickNewItem}>
-          Add New Item +
+          아이템 등록 +
         </Button>
 
         <ProductTable
