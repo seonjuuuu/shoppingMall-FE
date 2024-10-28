@@ -22,6 +22,7 @@ const Navbar = ({ user }) => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef(null);
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
 
   const hideMenu = ['/login', '/register'].includes(location.pathname);
@@ -35,6 +36,7 @@ const Navbar = ({ user }) => {
     if (event.key === 'Enter') {
       navigate(event.target.value === '' ? '/' : `?name=${event.target.value}`);
     }
+    setSearchQuery('');
   };
 
   useEffect(() => {
@@ -126,7 +128,9 @@ const Navbar = ({ user }) => {
             {showSearchBox && (
               <input
                 type="text"
+                value={searchQuery}
                 placeholder="제품검색"
+                onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={onCheckEnter}
                 className={styles.searchInput}
               />

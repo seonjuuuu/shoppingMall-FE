@@ -10,7 +10,7 @@ const LandingPage = () => {
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.product.productList);
-  const [query] = useSearchParams();
+  const [query, setSearchParams] = useSearchParams();
   const name = query.get('name');
   useEffect(() => {
     dispatch(
@@ -19,6 +19,10 @@ const LandingPage = () => {
       })
     );
   }, [query]);
+
+  const moveAllProduct = () => {
+    setSearchParams({});
+  };
 
   return (
     <Container className={styles.landingPage}>
@@ -45,6 +49,9 @@ const LandingPage = () => {
                 "{name || '검색'}"와 일치한 상품이 없습니다!
               </div>
             )}
+            <button className={styles.allButton} onClick={moveAllProduct}>
+              전체 상품 보기
+            </button>
           </div>
         )}
       </Row>
