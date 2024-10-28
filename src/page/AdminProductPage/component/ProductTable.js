@@ -2,11 +2,12 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import { currencyFormat } from '../../../utils/number';
+import styles from './ProductTable.module.scss';
 
 const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
   return (
-    <div className="overflow-x">
-      <Table striped bordered hover>
+    <div className={styles.productTable}>
+      <Table bordered>
         <thead>
           <tr>
             {header.map((title, index) => (
@@ -17,7 +18,12 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
         <tbody>
           {data.length > 0 ? (
             data.map((item, index) => (
-              <tr key={index}>
+              <tr
+                key={index}
+                className={
+                  item.status === 'disactive' ? `${styles.inactive}` : ''
+                }
+              >
                 <th>{index}</th>
                 <th>{item.sku}</th>
                 <th style={{ minWidth: '100px' }}>{item.name}</th>
@@ -30,7 +36,7 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
                   ))}
                 </th>
                 <th>
-                  <img src={item.image} width={100} alt="image" />
+                  <img src={item.image} width={100} alt="product-img" />
                 </th>
                 <th>{item.status}</th>
                 <th style={{ minWidth: '100px' }}>
@@ -40,17 +46,17 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
                     onClick={() => deleteItem(item._id)}
                     className="mr-1"
                   >
-                    -
+                    삭제
                   </Button>
                   <Button size="sm" onClick={() => openEditForm(item)}>
-                    Edit
+                    수정
                   </Button>
                 </th>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={header.length}>No Data to show</td>
+              <td colSpan={header.length}>등록된 제품이 없습니다.</td>
             </tr>
           )}
         </tbody>

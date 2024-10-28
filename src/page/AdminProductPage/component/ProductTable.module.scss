@@ -1,0 +1,13 @@
+.productTable {
+  overflow-x: auto;
+  width: 100%;
+  text-align: center;
+}
+
+.productTable::-webkit-scrollbar {
+  display: none;
+}
+
+.inactive {
+  background-color: rgba(199, 197, 197, 0.211);
+}
