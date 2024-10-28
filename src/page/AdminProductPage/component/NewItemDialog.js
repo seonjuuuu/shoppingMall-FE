@@ -73,11 +73,12 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
       return { ...total, [item[0]]: parseInt(item[1]) };
     }, {});
 
-    console.log(totalStock);
     if (mode === 'new') {
       dispatch(createProduct({ ...formData, stock: totalStock }));
     } else {
-      // 상품 수정하기
+      dispatch(
+        editProduct({ ...formData, stock: totalStock, id: selectedProduct._id })
+      );
     }
   };
 
@@ -222,12 +223,11 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
                     required
                     value={item[0] ? item[0].toLowerCase() : ''}
                   >
-                    <option value="" disabled selected hidden>
+                    <option value="" disabled hidden>
                       선택
                     </option>
                     {SIZE.map((item, index) => (
                       <option
-                        inValid={true}
                         value={item.toLowerCase()}
                         disabled={stock.some(
                           (size) => size[0] === item.toLowerCase()
