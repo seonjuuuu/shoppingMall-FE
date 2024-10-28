@@ -55,7 +55,7 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
               </tr>
             ))
           ) : (
-            <tr>
+            <tr className={styles.noData}>
               <td colSpan={header.length}>등록된 제품이 없습니다.</td>
             </tr>
           )}
