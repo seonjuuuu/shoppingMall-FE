@@ -45,18 +45,6 @@ body {
   position: absolute;
 }
 
-.search-box {
-  border-bottom: 1px solid black;
-  padding: 5px;
-}
-.search-box input {
-  border: none;
-  margin-left: 5px;
-  background-color: #faf9f8;
-}
-.search-box input:focus {
-  outline: none;
-}
 .mobile-search-box {
   position: relative;
   top: 10px;
