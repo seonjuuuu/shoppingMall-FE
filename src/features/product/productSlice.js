@@ -28,7 +28,6 @@ export const createProduct = createAsyncThunk(
       dispatch(
         showToastMessage({ message: '상품 등록 완료', status: 'success' })
       );
-      dispatch(getProductList());
       return res.data;
     } catch (error) {
       return rejectWithValue(error.error ?? error.message);
@@ -49,7 +48,6 @@ export const editProduct = createAsyncThunk(
       dispatch(
         showToastMessage({ message: '상품 수정 완료', status: 'success' })
       );
-      dispatch(getProductList());
       return res.data;
     } catch (error) {
       return rejectWithValue(error.error ?? error.message);

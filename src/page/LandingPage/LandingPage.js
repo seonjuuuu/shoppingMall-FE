@@ -55,16 +55,18 @@ const LandingPage = () => {
               alt="no-data"
               className={styles.noDataImage}
             />
-            {name === '' ? (
+            {name === '' || filterList.length === 0 ? (
               <div className={styles.noProduct}>등록된 상품이 없습니다!</div>
             ) : (
               <div className={styles.noProduct}>
-                "{name || '검색'}"와 일치한 상품이 없습니다!
+                "{name}"와 일치한 상품이 없습니다!
               </div>
             )}
-            <button className={styles.allButton} onClick={moveAllProduct}>
-              전체 상품 보기
-            </button>
+            {filterList.length !== 0 && 
+              <button className={styles.allButton} onClick={moveAllProduct}>
+                전체 상품 보기
+              </button>
+            }
           </div>
         )}
       </Row>

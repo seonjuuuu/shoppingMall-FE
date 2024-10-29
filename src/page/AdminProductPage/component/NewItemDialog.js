@@ -8,8 +8,10 @@ import {
   clearError,
   createProduct,
   editProduct,
+  getProductList,
 } from '../../../features/product/productSlice';
 import styles from './NewItemDialog.module.scss';
+import { useSearchParams } from 'react-router-dom';
 
 const InitialFormData = {
   name: '',
@@ -33,10 +35,18 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   const [stock, setStock] = useState([]);
   const dispatch = useDispatch();
   const [stockError, setStockError] = useState(false);
+  const [searchParams] = useSearchParams();
+  const query = Object.fromEntries([...searchParams]);
 
   useEffect(() => {
-    if (success) setShowDialog(false);
+    if (success) {
+      setShowDialog(false)
+      dispatch(getProductList(query));
+    };
   }, [success]);
+
+
+;
 
   useEffect(() => {
     if (error || !success) {
