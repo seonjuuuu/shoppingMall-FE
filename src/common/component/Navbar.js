@@ -8,7 +8,7 @@ import {
   faShippingFast,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
 import styles from './Navbar.module.scss';
@@ -24,6 +24,12 @@ const Navbar = ({ user }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
+  const [ query ] = useSearchParams(); 
+  const name = query.get('name');
+
+  useEffect(() => {
+    setSearchQuery(name || '');
+  }, [name]);
 
   const hideMenu = ['/login', '/register'].includes(location.pathname);
 
@@ -36,7 +42,6 @@ const Navbar = ({ user }) => {
     if (event.key === 'Enter') {
       navigate(event.target.value === '' ? '/' : `?name=${event.target.value}`);
     }
-    setSearchQuery('');
   };
 
   useEffect(() => {
@@ -131,7 +136,7 @@ const Navbar = ({ user }) => {
                 value={searchQuery}
                 placeholder="제품검색"
                 onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={onCheckEnter}
+                onKeyDown={onCheckEnter}
                 className={styles.searchInput}
               />
             )}
@@ -201,8 +206,10 @@ const Navbar = ({ user }) => {
           <input
             type="text"
             placeholder="제품검색"
-            onKeyPress={onCheckEnter}
+            onKeyDown={onCheckEnter}
             className={styles.searchInput}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
           />
         </div>
       )}

@@ -24,12 +24,13 @@ const LandingPage = () => {
     setSearchParams({});
   };
 
+  const filterList = productList.filter((item) => item.status === 'active');
+
   return (
     <Container className={styles.landingPage}>
       <Row>
-        {productList.length > 0 ? (
-          productList
-            .filter((item) => item.status === 'active')
+        {filterList.length > 0 ? (
+          filterList
             .map((item) => (
               <Col lg={3} md={6} sm={12} key={item._id}>
                 <ProductCard item={item} />
