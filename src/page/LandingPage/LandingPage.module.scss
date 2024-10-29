@@ -27,3 +27,10 @@
   border-radius: 8px;
   font-size: 15px;
 }
+
+@media screen and (max-width: 767px) {
+
+  .landingPage {
+    margin-top: 30px;
+  }
+}

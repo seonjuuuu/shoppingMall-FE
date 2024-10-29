@@ -31,7 +31,7 @@ const LandingPage = () => {
           productList
             .filter((item) => item.status === 'active')
             .map((item) => (
-              <Col md={3} sm={12} key={item._id}>
+              <Col lg={3} md={6} sm={12} key={item._id}>
                 <ProductCard item={item} />
               </Col>
             ))
