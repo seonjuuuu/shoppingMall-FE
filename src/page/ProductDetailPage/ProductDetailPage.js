@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Container, Row, Col, Button, Dropdown } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { currencyFormat } from "../../utils/number";
-import "./style/productDetail.style.css";
-import { getProductDetail } from "../../features/product/productSlice";
-import { addToCart } from "../../features/cart/cartSlice";
-import LoadingSpinner from "../../common/component/LoadingSpinner";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Container, Row, Col, Button, Dropdown } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { currencyFormat } from '../../utils/number';
+import './style/productDetail.style.css';
+import { getProductDetail } from '../../features/product/productSlice';
+import { addToCart } from '../../features/cart/cartSlice';
+import LoadingSpinner from '../../common/component/LoadingSpinner';
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const { selectedProduct, loading } = useSelector((state) => state.product);
-  const [size, setSize] = useState("");
+  const [size, setSize] = useState('');
   const { id } = useParams();
   const [sizeError, setSizeError] = useState(false);
   const user = useSelector((state) => state.user.user);
@@ -30,10 +30,7 @@ const ProductDetail = () => {
     dispatch(getProductDetail(id));
   }, [id, dispatch]);
 
-  if (loading || !selectedProduct)
-    return (
-      <LoadingSpinner />
-    );
+  if (loading || !selectedProduct) return <LoadingSpinner />;
   return (
     <Container className="product-detail-card">
       <Row>
@@ -55,11 +52,11 @@ const ProductDetail = () => {
           >
             <Dropdown.Toggle
               className="size-drop-down"
-              variant={sizeError ? "outline-danger" : "outline-dark"}
+              variant={sizeError ? 'outline-danger' : 'outline-dark'}
               id="dropdown-basic"
               align="start"
             >
-              {size === "" ? "사이즈 선택" : size.toUpperCase()}
+              {size === '' ? '사이즈 선택' : size.toUpperCase()}
             </Dropdown.Toggle>
 
             <Dropdown.Menu className="size-drop-down">
@@ -78,7 +75,7 @@ const ProductDetail = () => {
             </Dropdown.Menu>
           </Dropdown>
           <div className="warning-message">
-            {sizeError && "사이즈를 선택해주세요."}
+            {sizeError && '사이즈를 선택해주세요.'}
           </div>
           <Button variant="dark" className="add-button" onClick={addItemToCart}>
             추가
