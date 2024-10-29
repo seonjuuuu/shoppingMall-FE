@@ -9,6 +9,7 @@ import {
   createProduct,
   editProduct,
   getProductList,
+  resetSuccess,
 } from '../../../features/product/productSlice';
 import styles from './NewItemDialog.module.scss';
 import { useSearchParams } from 'react-router-dom';
@@ -40,13 +41,11 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
 
   useEffect(() => {
     if (success) {
-      setShowDialog(false)
+      setShowDialog(false);
       dispatch(getProductList(query));
-    };
+      dispatch(resetSuccess());
+    }
   }, [success]);
-
-
-;
 
   useEffect(() => {
     if (error || !success) {

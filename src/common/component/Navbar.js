@@ -8,7 +8,12 @@ import {
   faShippingFast,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  useSearchParams,
+} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
 import styles from './Navbar.module.scss';
@@ -24,7 +29,7 @@ const Navbar = ({ user }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
-  const [ query ] = useSearchParams(); 
+  const [query] = useSearchParams();
   const name = query.get('name');
 
   useEffect(() => {
