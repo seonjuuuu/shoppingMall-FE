@@ -32,6 +32,13 @@ const LandingPage = () => {
   return (
     <>    
     {loading ? <LoadingSpinner /> :
+    <>    
+    {name &&  name?.length > 0 && filterList.length > 0 && 
+      <div className={styles.searchInfo}>
+        "<span className={styles.serachName}>{name}</span>"
+        에 대한 검색결과 {filterList.length}건 
+      </div>
+    }
     <Container className={styles.landingPage}>
       <Row>
         {filterList.length > 0 ? (
@@ -62,6 +69,7 @@ const LandingPage = () => {
         )}
       </Row>
     </Container>
+    </>
     }
     </>
 

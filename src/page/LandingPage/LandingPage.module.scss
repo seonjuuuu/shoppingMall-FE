@@ -24,9 +24,21 @@
 }
 
 .landingPage {
-  margin-top: 80px;
+  margin-top: 60px;
 }
 
+.searchInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 30px auto 0;
+  font-size: 16px;
+}
+
+.serachName {
+  font-weight: 700;
+}
 .allButton {
   border: none;
   margin-top: 20px;
@@ -40,5 +52,8 @@
   .landingPage {
     padding: 0 30px;
     margin-top: 20px;
+  }
+  .searchInfo {
+    margin: 10px auto 40px;
   }
 }
