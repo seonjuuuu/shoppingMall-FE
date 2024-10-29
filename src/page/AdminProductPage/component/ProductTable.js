@@ -24,7 +24,7 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
                   item.status === 'disactive' ? `${styles.inactive}` : ''
                 }
               >
-                <th>{index}</th>
+                <th>{index + 1}</th>
                 <th>{item.sku}</th>
                 <th style={{ minWidth: '100px' }}>{item.name}</th>
                 <th>{currencyFormat(item.price)}</th>
@@ -55,7 +55,6 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
                   >
                     삭제
                   </Button>
-
                 </th>
               </tr>
             ))
