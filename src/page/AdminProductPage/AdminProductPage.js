@@ -12,12 +12,15 @@ import {
   setSelectedProduct,
 } from '../../features/product/productSlice';
 import styles from './AdminProductPage.module.scss';
+import LoadingSpinner from '../../common/component/LoadingSpinner';
 
 const AdminProductPage = () => {
   const navigate = useNavigate();
   const [query] = useSearchParams();
   const dispatch = useDispatch();
-  const { productList, totalPageNum } = useSelector((state) => state.product);
+  const { productList, totalPageNum, loading } = useSelector(
+    (state) => state.product
+  );
   const [showDialog, setShowDialog] = useState(false);
   const [searchQuery, setSearchQuery] = useState({
     page: query.get('page') || 1,
@@ -87,34 +90,39 @@ const AdminProductPage = () => {
         <Button className={styles.addButton} onClick={handleClickNewItem}>
           아이템 등록 +
         </Button>
-
-        <ProductTable
-          header={tableHeader}
-          data={productList}
-          deleteItem={deleteItem}
-          openEditForm={openEditForm}
-        />
-        <ReactPaginate
-          nextLabel=">"
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={5}
-          pageCount={totalPageNum}
-          forcePage={searchQuery.page - 1}
-          previousLabel="<"
-          renderOnZeroPageCount={null}
-          pageClassName={styles.pageItem}
-          pageLinkClassName={styles.pageLink}
-          previousClassName={styles.pageItem}
-          previousLinkClassName={styles.pageLink}
-          nextClassName={styles.pageItem}
-          nextLinkClassName={styles.pageLink}
-          breakLabel="..."
-          breakClassName={styles.pageItem}
-          breakLinkClassName={styles.pageLink}
-          containerClassName={styles.pagination}
-          activeClassName={styles.active}
-          className={styles.paging}
-        />
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            <ProductTable
+              header={tableHeader}
+              data={productList}
+              deleteItem={deleteItem}
+              openEditForm={openEditForm}
+            />
+            <ReactPaginate
+              nextLabel=">"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={5}
+              pageCount={totalPageNum}
+              forcePage={searchQuery.page - 1}
+              previousLabel="<"
+              renderOnZeroPageCount={null}
+              pageClassName={styles.pageItem}
+              pageLinkClassName={styles.pageLink}
+              previousClassName={styles.pageItem}
+              previousLinkClassName={styles.pageLink}
+              nextClassName={styles.pageItem}
+              nextLinkClassName={styles.pageLink}
+              breakLabel="..."
+              breakClassName={styles.pageItem}
+              breakLinkClassName={styles.pageLink}
+              containerClassName={styles.pagination}
+              activeClassName={styles.active}
+              className={styles.paging}
+            />
+          </>
+        )}
       </Container>
 
       <NewItemDialog
