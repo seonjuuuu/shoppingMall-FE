@@ -32,11 +32,11 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin: 30px auto 0;
+  margin: 30px auto;
   font-size: 16px;
 }
 
-.serachName {
+.searchName {
   font-weight: 700;
 }
 .allButton {
@@ -48,7 +48,6 @@
 }
 
 @media screen and (max-width: 767px) {
-
   .landingPage {
     padding: 0 30px;
     margin-top: 20px;

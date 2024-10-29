@@ -3,8 +3,13 @@ import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import { currencyFormat, discountPercent } from '../../../utils/number';
 import styles from './ProductTable.module.scss';
+import { useSearchParams } from 'react-router-dom';
 
 const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
+  const [query] = useSearchParams();
+  const page = Number(query.get('page')) - 1 ?? 0;
+  const limit = 5;
+  const startIndex = limit * page + 1;
   return (
     <div className={styles.productTable}>
       <Table bordered>
@@ -24,7 +29,7 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
                   item.status === 'disactive' ? `${styles.inactive}` : ''
                 }
               >
-                <th>{index + 1}</th>
+                <th>{startIndex + index}</th>
                 <th>{item.sku}</th>
                 <th style={{ minWidth: '100px' }}>{item.name}</th>
                 <th>{currencyFormat(item.price)}</th>
