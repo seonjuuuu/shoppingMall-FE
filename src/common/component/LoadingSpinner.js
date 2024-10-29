@@ -1,13 +1,11 @@
 import React from 'react';
-import { Spinner } from 'react-bootstrap';
 import styles from './LoadingSpinner.module.scss';
+import { MoonLoader } from 'react-spinners';
 
-const LoadingSpinner = () => {
+const LoadingSpinner = ({ isBackground, size }) => {
   return (
-    <div className={styles.overlay}>
-      <Spinner animation="border" role="status" className={styles.spinner}>
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+    <div className={isBackground ? `${styles.overlay}` : `${styles.background}`}>
+      <MoonLoader color={isBackground? '#fff' : '#000'} size={size}/>
     </div>
   );
 };

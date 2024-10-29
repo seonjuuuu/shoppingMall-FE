@@ -64,7 +64,7 @@ const RegisterPage = () => {
 
   return (
     <>
-      {isLoading && <LoadingSpinner />}
+      {isLoading && <LoadingSpinner isBackground={true}/>}
       <Container className="register-area">
         {registrationError && (
           <div>

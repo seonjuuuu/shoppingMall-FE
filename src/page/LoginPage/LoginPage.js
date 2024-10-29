@@ -50,7 +50,7 @@ const Login = () => {
 
   return (
     <>
-      {isLoading && <LoadingSpinner />}
+      {isLoading && <LoadingSpinner isBackground={true}/>}
       <Container className={styles.loginArea}>
         {loginError && (
           <div className="error-message">

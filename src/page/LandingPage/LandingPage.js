@@ -5,11 +5,14 @@ import { useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductList } from '../../features/product/productSlice';
 import styles from './LandingPage.module.scss';
+import LoadingSpinner from '../../common/component/LoadingSpinner';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.product.productList);
+  const loading = useSelector((state) => state.product.loading);
+
   const [query, setSearchParams] = useSearchParams();
   const name = query.get('name');
   useEffect(() => {
@@ -27,6 +30,8 @@ const LandingPage = () => {
   const filterList = productList.filter((item) => item.status === 'active');
 
   return (
+    <>    
+    {loading ? <LoadingSpinner /> :
     <Container className={styles.landingPage}>
       <Row>
         {filterList.length > 0 ? (
@@ -57,6 +62,9 @@ const LandingPage = () => {
         )}
       </Row>
     </Container>
+    }
+    </>
+
   );
 };
 
