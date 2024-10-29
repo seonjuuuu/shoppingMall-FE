@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
-import { currencyFormat } from '../../../utils/number';
+import { currencyFormat, discountPercent } from '../../../utils/number';
 import styles from './ProductTable.module.scss';
 
 const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
@@ -29,6 +29,7 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
                 <th style={{ minWidth: '100px' }}>{item.name}</th>
                 <th>{currencyFormat(item.price)}</th>
                 <th>{currencyFormat(item.discountPrice)}</th>
+                <th>{discountPercent(item.price, item.discountPrice)}%</th>
                 <th>
                   {Object.keys(item.stock).map((size, index) => (
                     <div key={index}>
@@ -41,6 +42,11 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
                 </th>
                 <th>{item.status}</th>
                 <th style={{ minWidth: '100px' }}>
+                  <Button size="sm" onClick={() => openEditForm(item)}>
+                    수정
+                  </Button>
+                </th>
+                <th style={{ minWidth: '100px' }}>
                   <Button
                     size="sm"
                     variant="danger"
@@ -49,9 +55,7 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
                   >
                     삭제
                   </Button>
-                  <Button size="sm" onClick={() => openEditForm(item)}>
-                    수정
-                  </Button>
+
                 </th>
               </tr>
             ))
