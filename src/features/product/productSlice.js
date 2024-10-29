@@ -50,6 +50,18 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
+export const getDeletedProduct = createAsyncThunk(
+  'products/getDeletedProduct',
+  async (query, { rejectWithValue }) => {
+    try {
+      const res = await api.get('/product/delete', { params: { ...query } });
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.error ?? error.message);
+    }
+  }
+);
+
 export const editProduct = createAsyncThunk(
   'products/editProduct',
   async ({ id, ...formData }, { dispatch, rejectWithValue }) => {
@@ -140,6 +152,19 @@ const productSlice = createSlice({
         state.error = '';
       })
       .addCase(deleteProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getDeletedProduct.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getDeletedProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.productList = action.payload.data;
+        state.totalPageNum = action.payload.total;
+        state.error = '';
+      })
+      .addCase(getDeletedProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

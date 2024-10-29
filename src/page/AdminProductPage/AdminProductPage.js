@@ -10,6 +10,7 @@ import {
   getProductList,
   deleteProduct,
   setSelectedProduct,
+  getDeletedProduct,
 } from '../../features/product/productSlice';
 import styles from './AdminProductPage.module.scss';
 import LoadingSpinner from '../../common/component/LoadingSpinner';
@@ -26,7 +27,7 @@ const AdminProductPage = () => {
     page: query.get('page') || 1,
     name: query.get('name') || '',
   });
-
+  const [listMode, setListMode] = useState('operation');
   const [mode, setMode] = useState('new');
 
   const tableHeader = [
@@ -44,8 +45,12 @@ const AdminProductPage = () => {
   ];
 
   useEffect(() => {
-    dispatch(getProductList({ ...searchQuery }));
-  }, [query]);
+    if (listMode === 'deleted') {
+      dispatch(getDeletedProduct({ ...searchQuery }));
+    } else {
+      dispatch(getProductList({ ...searchQuery }));
+    }
+  }, [listMode, searchQuery, dispatch]);
 
   useEffect(() => {
     if (searchQuery.name === '') {
@@ -79,6 +84,18 @@ const AdminProductPage = () => {
     setSearchQuery({ ...searchQuery, page: selected + 1 });
   };
 
+  const handleDeleteItem = () => {
+    setListMode('deleted');
+    const initialQuery = { page: 1, name: '' };
+    setSearchQuery(initialQuery);
+  };
+
+  const handleProductItem = () => {
+    setListMode('operation');
+    const initialQuery = { page: 1, name: '' };
+    setSearchQuery(initialQuery);
+  };
+
   return (
     <div className={styles.locateCenter}>
       <Container>
@@ -90,9 +107,27 @@ const AdminProductPage = () => {
             field="name"
           />
         </div>
-        <Button className={styles.addButton} onClick={handleClickNewItem}>
-          아이템 등록 +
-        </Button>
+        <div className={styles.buttonList}>
+          <Button className={styles.productButton} onClick={handleClickNewItem}>
+            아이템 등록 +
+          </Button>
+          <div className={styles.listButton}>
+            <Button
+              variant="success"
+              className={styles.productButton}
+              onClick={handleProductItem}
+            >
+              운영 리스트
+            </Button>
+            <Button
+              variant="danger"
+              className={styles.productButton}
+              onClick={handleDeleteItem}
+            >
+              삭제 리스트
+            </Button>
+          </div>
+        </div>
         {loading ? (
           <LoadingSpinner />
         ) : (

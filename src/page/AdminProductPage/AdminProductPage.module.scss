@@ -29,8 +29,19 @@
   margin: 0 5px;
 }
 
-.addButton {
+.buttonList {
+  display: flex;
+  justify-content: space-between;
+}
+
+.productButton {
   margin-bottom: 20px;
+}
+
+.listButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .pageLink {
