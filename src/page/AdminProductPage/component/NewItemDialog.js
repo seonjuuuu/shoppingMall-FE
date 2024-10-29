@@ -79,6 +79,16 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
       return;
     }
 
+    if (!formData.price) {
+      alert('정가금액을 입력해주세요.');
+      return;
+    }
+
+    if (formData.discountPrice > formData.price) {
+      alert('할인가는 정가보다 높을 수 없습니다.');
+      return;
+    }
+
     const totalStock = stock.reduce((total, item) => {
       return { ...total, [item[0]]: parseInt(item[1]) };
     }, {});
@@ -304,7 +314,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
           </Form.Group>
           <Form.Group as={Col} controlId="discountPrice">
             <Form.Label>
-              판매금액
+              할인가
               <span className={styles.info}>
                 * 미입력시(0 입력시) 자동으로 정가금액 셋팅 *
               </span>

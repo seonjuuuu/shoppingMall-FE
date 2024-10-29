@@ -28,5 +28,12 @@ export const cc_expires_format = (string) => {
 };
 
 export const discountPercent = (price, discountPrice) => {
-  return Math.round(((price - discountPrice) / price) * 100);
+  const validPrice = Number(price);
+  const validDiscountPrice = Number(discountPrice);
+
+  if (isNaN(validPrice) || isNaN(validDiscountPrice) || validPrice === 0) {
+    return 0;
+  }
+
+  return Math.round(((validPrice - validDiscountPrice) / validPrice) * 100);
 };

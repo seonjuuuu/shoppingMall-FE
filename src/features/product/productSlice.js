@@ -37,7 +37,17 @@ export const createProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
-  async (id, { dispatch, rejectWithValue }) => {}
+  async (id, { dispatch, rejectWithValue }) => {
+    try {
+      const res = await api.delete(`/product/${id}`);
+      dispatch(
+        showToastMessage({ message: '상품삭제 완료', status: 'success' })
+      );
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.error ?? error.message);
+    }
+  }
 );
 
 export const editProduct = createAsyncThunk(
@@ -120,6 +130,17 @@ const productSlice = createSlice({
       .addCase(editProduct.rejected, (state, action) => {
         state.loading = false;
         state.success = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteProduct.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteProduct.fulfilled, (state) => {
+        state.loading = false;
+        state.error = '';
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload;
       });
   },
