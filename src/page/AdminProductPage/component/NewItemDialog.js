@@ -184,11 +184,11 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
           </Form.Group>
 
           <Form.Group as={Col} controlId="name">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>상품 이름</Form.Label>
             <Form.Control
               onChange={handleChange}
               type="string"
-              placeholder="Name"
+              placeholder="상품 이름"
               required
               value={formData.name}
               name="name"
@@ -197,10 +197,10 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
         </Row>
 
         <Form.Group className="mb-3" controlId="description">
-          <Form.Label>Description</Form.Label>
+          <Form.Label>상품 설명</Form.Label>
           <Form.Control
             type="string"
-            placeholder="Description"
+            placeholder="상품 설명"
             as="textarea"
             onChange={handleChange}
             rows={3}
@@ -271,7 +271,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="Image" required>
-          <Form.Label>Image</Form.Label>
+          <Form.Label>상품 이미지</Form.Label>
           <CloudinaryUploadWidget uploadImage={uploadImage} />
           <img
             id="uploadedImage"
@@ -283,7 +283,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
 
         <Row className="mb-3">
           <Form.Group as={Col} controlId="price">
-            <Form.Label>Price</Form.Label>
+            <Form.Label>정가</Form.Label>
             <Form.Control
               value={formData.price}
               required
@@ -295,9 +295,9 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
           </Form.Group>
           <Form.Group as={Col} controlId="discountPrice">
             <Form.Label>
-              Discount Price
+              판매금액
               <span className={styles.info}>
-                * 미입력시 자동으로 기본가격 셋팅 *
+                * 미입력시(0 입력시) 자동으로 정가금액 셋팅 *
               </span>
             </Form.Label>
             <Form.Control
