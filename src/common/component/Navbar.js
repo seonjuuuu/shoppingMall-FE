@@ -45,7 +45,9 @@ const Navbar = ({ user }) => {
 
   const onCheckEnter = (event) => {
     if (event.key === 'Enter') {
-      navigate(event.target.value === '' ? '/' : `?name=${event.target.value}`);
+      navigate(
+        event.target.value === '' ? '/' : `/?name=${event.target.value}`
+      );
     }
   };
 
