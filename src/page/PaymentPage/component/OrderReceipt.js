@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { currencyFormat } from '../../../utils/number';
 import styles from './OrderReceipt.module.scss';
 
-const OrderReceipt = () => {
+const OrderReceipt = ({ cartList, totalPrice }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -13,45 +13,35 @@ const OrderReceipt = () => {
     <div className={styles.receiptContainer}>
       <h3 className={styles.receiptTitle}>주문 내역</h3>
       <ul className={styles.receiptList}>
-        <li>
-          <div className={styles.itemList}>
-            <div>아이템이름</div>
-
-            <div>₩ 45,000</div>
-          </div>
-        </li>
-        <li>
-          <div className={styles.itemList}>
-            <div>아이템이름</div>
-
-            <div>₩ 45,000</div>
-          </div>
-        </li>
-        <li>
-          <div className={styles.itemList}>
-            <div>아이템이름</div>
-
-            <div>₩ 45,000</div>
-          </div>
-        </li>
+        {cartList.length > 0 &&
+          cartList.map((item) => (
+            <li key={item.productId}>
+              <div className={styles.itemList}>
+                <div>{item.productId.name}</div>
+                <div>
+                  ₩{currencyFormat(item.productId.discountPrice * item.qty)}
+                </div>
+              </div>
+            </li>
+          ))}
       </ul>
       <div className={styles.cartTotal}>
         <div>
           <strong>Total:</strong>
         </div>
         <div>
-          <strong>₩ 최종가격</strong>
+          <strong>₩ {currencyFormat(totalPrice)}</strong>
         </div>
       </div>
-      {/* {location.pathname.includes("/cart") && cartList.length > 0 && (
+      {location.pathname.includes('/cart') && cartList.length > 0 && (
         <Button
           variant="dark"
-          className="payment-button"
-          onClick={() => navigate("/payment")}
+          className="payment-button mt-4"
+          onClick={() => navigate('/payment')}
         >
           결제 계속하기
         </Button>
-      )} */}
+      )}
 
       <div className={styles.infoText}>
         결제 단계에 도달하기 전까지는 정확한 가격과 배송료가 확정되지 않을 수
