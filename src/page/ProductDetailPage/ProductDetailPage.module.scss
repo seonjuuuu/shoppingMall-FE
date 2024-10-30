@@ -62,11 +62,12 @@
   margin: 20px 0 30px;
 }
 
-.productInfoArea {
-}
-
 @media screen and (max-width: 63rem) {
   .productDetailCard {
     margin-top: 20px;
+  }
+  .productInfoArea {
+    margin-top: 30px;
+    padding: 0 20px;
   }
 }
