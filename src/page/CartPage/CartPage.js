@@ -7,10 +7,11 @@ import OrderReceipt from '../PaymentPage/component/OrderReceipt';
 import './style/cart.style.css';
 import { getCartList } from '../../features/cart/cartSlice';
 import styles from './CartPage.module.scss';
+import LoadingSpinner from '../../common/component/LoadingSpinner';
 
 const CartPage = () => {
   const dispatch = useDispatch();
-  const { cartList, totalPrice } = useSelector((state) => state.cart);
+  const { cartList, totalPrice, loading } = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(getCartList());
@@ -18,9 +19,10 @@ const CartPage = () => {
 
   return (
     <Container className={styles.cartContainer}>
+      {loading && <LoadingSpinner />}
       <Row className={styles.cartPage}>
         <Col xs={12} md={7}>
-          {cartList.length > 0 ? (
+          {cartList.length > 0 && !loading ? (
             cartList.map((item, index) => (
               <CartProductCard
                 item={item}
