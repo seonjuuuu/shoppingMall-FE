@@ -41,7 +41,7 @@
 }
 
 .itemPrice {
-  width: 85px;
+  min-width: 85px;
   display: flex;
   justify-content: space-between;
   gap: 10px;
