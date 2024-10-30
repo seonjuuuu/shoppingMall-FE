@@ -104,7 +104,7 @@ const LandingPage = () => {
           </div>
         )}
       </Row>
-      {!loading && page > 1 && <LoadingSpinner spot={true} height={'70px'} />}
+      {loading && page > 1 && <LoadingSpinner spot={true} height={'70px'} />}
     </Container>
   );
 };
