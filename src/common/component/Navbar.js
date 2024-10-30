@@ -7,6 +7,7 @@ import {
   faShoppingCart,
   faShippingFast,
 } from '@fortawesome/free-solid-svg-icons';
+import { motion } from 'framer-motion';
 
 import {
   Link,
@@ -82,6 +83,16 @@ const Navbar = ({ user }) => {
     '지속가능성',
   ];
 
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    if (cartItemCount > 0) {
+      setAnimate(true);
+      const timer = setTimeout(() => setAnimate(false), 500); // 애니메이션을 0.5초 후에 초기화
+      return () => clearTimeout(timer);
+    }
+  }, [cartItemCount]);
+
   return (
     <div>
       <div
@@ -154,7 +165,15 @@ const Navbar = ({ user }) => {
             className={`${styles.navIcon}`}
           >
             <FontAwesomeIcon icon={faShoppingCart} />
-            <span className={styles.cartNum}>{cartItemCount || 0}</span>
+            <motion.span
+              className={styles.cartNum}
+              key={cartItemCount}
+              initial={{ scale: 1 }}
+              animate={{ scale: [1, 1.3, 1] }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+            >
+              {cartItemCount || 0}
+            </motion.span>
           </div>
           <div
             onClick={() => navigate('/account/purchase')}

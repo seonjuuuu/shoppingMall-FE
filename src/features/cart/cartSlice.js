@@ -1,10 +1,10 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../utils/api";
-import { showToastMessage } from "../common/uiSlice";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import api from '../../utils/api';
+import { showToastMessage } from '../common/uiSlice';
 
 const initialState = {
   loading: false,
-  error: "",
+  error: '',
   cartList: [],
   selectedItem: {},
   cartItemCount: 0,
@@ -13,32 +13,45 @@ const initialState = {
 
 // Async thunk actions
 export const addToCart = createAsyncThunk(
-  "cart/addToCart",
-  async ({ id, size }, { rejectWithValue, dispatch }) => {}
+  'cart/addToCart',
+  async ({ id, size }, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await api.post('/cart', { productId: id, size, qty: 1 });
+      return res.data.cartItemQty;
+    } catch (error) {
+      dispatch(
+        showToastMessage({
+          message: error.message || '장바구니 담기 실패',
+          status: 'error',
+        })
+      );
+      return rejectWithValue(error.error && error.message);
+    }
+  }
 );
 
 export const getCartList = createAsyncThunk(
-  "cart/getCartList",
+  'cart/getCartList',
   async (_, { rejectWithValue, dispatch }) => {}
 );
 
 export const deleteCartItem = createAsyncThunk(
-  "cart/deleteCartItem",
+  'cart/deleteCartItem',
   async (id, { rejectWithValue, dispatch }) => {}
 );
 
 export const updateQty = createAsyncThunk(
-  "cart/updateQty",
+  'cart/updateQty',
   async ({ id, value }, { rejectWithValue }) => {}
 );
 
 export const getCartQty = createAsyncThunk(
-  "cart/getCartQty",
+  'cart/getCartQty',
   async (_, { rejectWithValue, dispatch }) => {}
 );
 
 const cartSlice = createSlice({
-  name: "cart",
+  name: 'cart',
   initialState,
   reducers: {
     initialCart: (state) => {
@@ -46,7 +59,21 @@ const cartSlice = createSlice({
     },
     // You can still add reducers here for non-async actions if necessary
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(addToCart.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addToCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cartItemCount = action.payload;
+        state.error = '';
+      })
+      .addCase(addToCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
 });
 
 export default cartSlice.reducer;
