@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-
-import './style/register.style.css';
+import styles from './RegisterPage.module.scss';
 
 import { registerUser } from '../../features/user/userSlice';
 import LoadingSpinner from '../../common/component/LoadingSpinner';
@@ -64,8 +63,8 @@ const RegisterPage = () => {
 
   return (
     <>
-      {isLoading && <LoadingSpinner isBackground={true}/>}
-      <Container className="register-area">
+      {isLoading && <LoadingSpinner isBackground={true} />}
+      <Container className={styles.registerArea}>
         {registrationError && (
           <div>
             <Alert variant="danger" className="error-message">

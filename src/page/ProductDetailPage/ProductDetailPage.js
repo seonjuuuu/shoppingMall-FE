@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Container, Row, Col, Button, Dropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { currencyFormat, discountPercent } from '../../utils/number';
-import './style/productDetail.style.css';
 import { getProductDetail } from '../../features/product/productSlice';
 import { addToCart } from '../../features/cart/cartSlice';
 import LoadingSpinner from '../../common/component/LoadingSpinner';
