@@ -19,32 +19,35 @@ const CartPage = () => {
 
   return (
     <Container className={styles.cartContainer}>
-      {loading && <LoadingSpinner />}
-      <Row className={styles.cartPage}>
-        <Col xs={12} md={7}>
-          {cartList.length > 0 && !loading ? (
-            cartList.map((item, index) => (
-              <CartProductCard
-                item={item}
-                key={`${item.productId._id || item._id}-${index}`}
-              />
-            ))
-          ) : (
-            <div className={styles.noCart}>
-              <img
-                src="/image/no-cart.svg"
-                alt="no-cart"
-                className={styles.noCartImage}
-              />
-              <h2 className={styles.noCartText}>카트가 비어있습니다</h2>
-              <div>상품을 담아주세요</div>
-            </div>
-          )}
-        </Col>
-        <Col xs={12} md={5}>
-          <OrderReceipt cartList={cartList} totalPrice={totalPrice} />
-        </Col>
-      </Row>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <Row className={styles.cartPage}>
+          <Col xs={12} md={7}>
+            {cartList.length > 0 && !loading ? (
+              cartList.map((item, index) => (
+                <CartProductCard
+                  item={item}
+                  key={`${item.productId._id || item._id}-${index}`}
+                />
+              ))
+            ) : (
+              <div className={styles.noCart}>
+                <img
+                  src="/image/no-cart.svg"
+                  alt="no-cart"
+                  className={styles.noCartImage}
+                />
+                <h2 className={styles.noCartText}>카트가 비어있습니다</h2>
+                <div>상품을 담아주세요</div>
+              </div>
+            )}
+          </Col>
+          <Col xs={12} md={5}>
+            <OrderReceipt cartList={cartList} totalPrice={totalPrice} />
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 };
