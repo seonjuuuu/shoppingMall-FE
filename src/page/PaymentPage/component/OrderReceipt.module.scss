@@ -32,6 +32,11 @@
   padding: 0;
   li {
     padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-top: 10px;
+    &:last-child {
+      border-bottom: none;
+    }
   }
 }
 
@@ -45,6 +50,15 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
+}
+.nameInfo {
+  font-size: 17px;
+}
+
+.sizeInfo {
+  margin-top: 4px;
+  color: #6d6d6e;
+  font-size: 14px;
 }
 
 @media screen and (max-width: 63rem) {

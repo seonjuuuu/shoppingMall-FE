@@ -8,7 +8,7 @@ import styles from './OrderReceipt.module.scss';
 const OrderReceipt = ({ cartList, totalPrice }) => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  console.log(cartList);
   return (
     <div className={styles.receiptContainer}>
       <h3 className={styles.receiptTitle}>주문 내역</h3>
@@ -17,7 +17,10 @@ const OrderReceipt = ({ cartList, totalPrice }) => {
           cartList.map((item, index) => (
             <li key={index}>
               <div className={styles.itemList}>
-                <div>{item.productId.name}</div>
+                <div className={styles.nameInfo}>
+                  {item.productId.name}
+                  <div className={styles.sizeInfo}>사이즈: {item.size}</div>
+                </div>
                 <div className={styles.itemPrice}>
                   <span>₩</span>
                   <span>
