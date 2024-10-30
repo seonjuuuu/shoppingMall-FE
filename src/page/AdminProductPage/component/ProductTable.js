@@ -26,7 +26,7 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
               <tr
                 key={index}
                 className={
-                  item.status === 'disactive' ? `${styles.inactive}` : ''
+                  item.status === 'inactive' ? `${styles.inactive}` : ''
                 }
               >
                 <th>{startIndex + index}</th>
