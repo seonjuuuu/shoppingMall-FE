@@ -17,6 +17,12 @@ export const addToCart = createAsyncThunk(
   async ({ id, size }, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.post('/cart', { productId: id, size, qty: 1 });
+      dispatch(
+        showToastMessage({
+          message: '장바구니에 상품이 담겼습니다.',
+          status: 'success',
+        })
+      );
       return res.data.cartItemQty;
     } catch (error) {
       dispatch(
