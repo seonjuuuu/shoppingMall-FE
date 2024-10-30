@@ -59,6 +59,7 @@ const ProductTable = ({
                     checked={item.status === 'active'}
                     offColor="#888"
                     onColor="#3aa500"
+                    disabled={item.isDeleted}
                     uncheckedIcon={
                       <div
                         style={{ padding: '4px', color: 'white', fontSize: 12 }}
