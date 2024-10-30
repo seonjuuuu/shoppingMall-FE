@@ -7,6 +7,7 @@ import Navbar from '../common/component/Navbar';
 import ToastMessage from '../common/component/ToastMessage';
 import { loginWithToken } from '../features/user/userSlice';
 import { getCartQty } from '../features/cart/cartSlice';
+import Footer from '../common/component/Footer';
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
@@ -38,6 +39,7 @@ const AppLayout = ({ children }) => {
         <>
           <Navbar user={user} />
           {children}
+          <Footer />
         </>
       )}
     </div>
