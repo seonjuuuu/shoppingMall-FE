@@ -21,8 +21,11 @@ const CartPage = () => {
       <Row className={styles.cartPage}>
         <Col xs={12} md={7}>
           {cartList.length > 0 ? (
-            cartList.map((item) => (
-              <CartProductCard item={item} key={item._id} />
+            cartList.map((item, index) => (
+              <CartProductCard
+                item={item}
+                key={`${item.productId._id || item._id}-${index}`}
+              />
             ))
           ) : (
             <div className={styles.noCart}>

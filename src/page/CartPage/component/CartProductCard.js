@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { currencyFormat } from '../../../utils/number';
 import { updateQty, deleteCartItem } from '../../../features/cart/cartSlice';
 import styles from './CartProductCard.module.scss';
+import { Link } from 'react-router-dom';
 
 const CartProductCard = ({ item }) => {
   const dispatch = useDispatch();
@@ -17,13 +18,15 @@ const CartProductCard = ({ item }) => {
     if (!window.confirm('이 상품을 삭제하시겠습니까?')) return;
     dispatch(deleteCartItem(id));
   };
-
   return (
     <div className={styles.productCardCart}>
       <div className={styles.productCard}>
-        <div className={styles.imageContainer}>
+        <Link
+          to={`/product/${item.productId._id}`}
+          className={styles.imageContainer}
+        >
           <img src={item.productId.image} width={112} alt="product" />
-        </div>
+        </Link>
         <div className={styles.detailsContainer}>
           <div className={`${styles.flex} ${styles.spaceBetween}`}>
             <h3 className={styles.productName}>{item.productId.name}</h3>
@@ -52,7 +55,7 @@ const CartProductCard = ({ item }) => {
                 className={styles.qtyDropdown}
               >
                 {[...Array(10)].map((_, index) => (
-                  <option key={index} value={index + 1}>
+                  <option key={`${item._id}-${index}`} value={index + 1}>
                     {index + 1}
                   </option>
                 ))}

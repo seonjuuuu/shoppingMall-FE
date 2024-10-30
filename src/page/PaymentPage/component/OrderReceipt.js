@@ -14,8 +14,8 @@ const OrderReceipt = ({ cartList, totalPrice }) => {
       <h3 className={styles.receiptTitle}>주문 내역</h3>
       <ul className={styles.receiptList}>
         {cartList.length > 0 &&
-          cartList.map((item) => (
-            <li key={item.productId}>
+          cartList.map((item, index) => (
+            <li key={index}>
               <div className={styles.itemList}>
                 <div>{item.productId.name}</div>
                 <div>
