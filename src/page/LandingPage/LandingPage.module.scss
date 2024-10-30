@@ -47,6 +47,12 @@
   font-size: 15px;
 }
 
+.info {
+  display: flex;
+  justify-content: center;
+  color: #727272;
+}
+
 @media screen and (max-width: 767px) {
   .landingPage {
     padding: 0 30px;
