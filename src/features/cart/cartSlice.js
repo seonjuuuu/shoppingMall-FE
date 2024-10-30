@@ -57,7 +57,14 @@ export const deleteCartItem = createAsyncThunk(
 
 export const updateQty = createAsyncThunk(
   'cart/updateQty',
-  async ({ id, value }, { rejectWithValue }) => {}
+  async ({ id, value }, { rejectWithValue }) => {
+    try {
+      const res = await api.put(`/cart/${id}`, { qty: value });
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
 );
 
 export const getCartQty = createAsyncThunk(
@@ -131,6 +138,18 @@ const cartSlice = createSlice({
         state.error = '';
       })
       .addCase(deleteCartItem.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateQty.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateQty.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cartList = action.payload.data;
+        state.error = '';
+      })
+      .addCase(updateQty.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
