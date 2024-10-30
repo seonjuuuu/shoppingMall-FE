@@ -89,6 +89,11 @@ const cartSlice = createSlice({
     // You can still add reducers here for non-async actions if necessary
   },
   extraReducers: (builder) => {
+    const calculateTotalPrice = (cartList) =>
+      cartList.reduce(
+        (total, item) => total + item.productId.discountPrice * item.qty,
+        0
+      );
     builder
       .addCase(addToCart.pending, (state) => {
         state.loading = true;
@@ -120,10 +125,7 @@ const cartSlice = createSlice({
       .addCase(getCartList.fulfilled, (state, action) => {
         state.loading = false;
         state.cartList = action.payload;
-        state.totalPrice = action.payload.reduce(
-          (total, item) => total + item.productId.discountPrice * item.qty,
-          0
-        );
+        state.totalPrice = calculateTotalPrice(state.cartList);
       })
       .addCase(getCartList.rejected, (state, action) => {
         state.loading = false;
@@ -135,6 +137,7 @@ const cartSlice = createSlice({
       .addCase(deleteCartItem.fulfilled, (state, action) => {
         state.loading = false;
         state.cartItemCount = action.payload.qty;
+        state.totalPrice = calculateTotalPrice(state.cartList);
         state.error = '';
       })
       .addCase(deleteCartItem.rejected, (state, action) => {
@@ -147,6 +150,7 @@ const cartSlice = createSlice({
       .addCase(updateQty.fulfilled, (state, action) => {
         state.loading = false;
         state.cartList = action.payload.data;
+        state.totalPrice = calculateTotalPrice(state.cartList);
         state.error = '';
       })
       .addCase(updateQty.rejected, (state, action) => {
