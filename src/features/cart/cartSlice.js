@@ -9,6 +9,7 @@ const initialState = {
   selectedItem: {},
   cartItemCount: 0,
   totalPrice: 0,
+  getListLoading: false,
 };
 
 // Async thunk actions
@@ -126,15 +127,15 @@ const cartSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(getCartList.pending, (state, action) => {
-        state.loading = true;
+        state.getListLoading = true;
       })
       .addCase(getCartList.fulfilled, (state, action) => {
-        state.loading = false;
+        state.getListLoading = false;
         state.cartList = action.payload;
         state.totalPrice = calculateTotalPrice(state.cartList);
       })
       .addCase(getCartList.rejected, (state, action) => {
-        state.loading = false;
+        state.getListLoading = false;
         state.error = action.payload;
       })
       .addCase(deleteCartItem.pending, (state) => {
