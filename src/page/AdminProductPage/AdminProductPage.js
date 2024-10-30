@@ -11,6 +11,7 @@ import {
   deleteProduct,
   setSelectedProduct,
   getDeletedProduct,
+  updateStatus,
 } from '../../features/product/productSlice';
 import styles from './AdminProductPage.module.scss';
 import LoadingSpinner from '../../common/component/LoadingSpinner';
@@ -96,6 +97,13 @@ const AdminProductPage = () => {
     setSearchQuery(initialQuery);
   };
 
+  const handleStatusUpdate = (id, status) => {
+    const changeStatus = status === 'active' ? 'inactive' : 'active';
+    dispatch(updateStatus({ id, status: changeStatus })).then(() => {
+      dispatch(getProductList({ ...searchQuery }));
+    });
+  };
+
   return (
     <div className={styles.locateCenter}>
       <Container>
@@ -137,6 +145,7 @@ const AdminProductPage = () => {
               data={productList}
               deleteItem={deleteItem}
               openEditForm={openEditForm}
+              handleStatusUpdate={handleStatusUpdate}
             />
             <ReactPaginate
               nextLabel=">"

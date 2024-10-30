@@ -4,9 +4,17 @@ import Table from 'react-bootstrap/Table';
 import { currencyFormat, discountPercent } from '../../../utils/number';
 import styles from './ProductTable.module.scss';
 import { useSearchParams } from 'react-router-dom';
+import Switch from 'react-switch';
 
-const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
+const ProductTable = ({
+  header,
+  data,
+  deleteItem,
+  openEditForm,
+  handleStatusUpdate,
+}) => {
   const [query] = useSearchParams();
+  console.log('item', data);
   const page = Number(query.get('page')) - 1 ?? 0;
   const limit = 5;
   const startIndex = limit * page + 1;
@@ -45,7 +53,28 @@ const ProductTable = ({ header, data, deleteItem, openEditForm }) => {
                 <th>
                   <img src={item.image} width={100} alt="product-img" />
                 </th>
-                <th>{item.status}</th>
+                <th>
+                  <Switch
+                    onChange={() => handleStatusUpdate(item._id, item.status)}
+                    checked={item.status === 'active'}
+                    offColor="#888"
+                    onColor="#3aa500"
+                    uncheckedIcon={
+                      <div
+                        style={{ padding: '4px', color: 'white', fontSize: 12 }}
+                      >
+                        OFF
+                      </div>
+                    }
+                    checkedIcon={
+                      <div
+                        style={{ padding: '4px', color: 'white', fontSize: 12 }}
+                      >
+                        ON
+                      </div>
+                    }
+                  />
+                </th>
                 <th style={{ minWidth: '100px' }}>
                   <Button
                     disabled={item.isDeleted}
