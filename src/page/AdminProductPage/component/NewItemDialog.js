@@ -96,9 +96,13 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
     const updatedFormData = {
       ...formData,
       discountPrice:
-        formData.discountPrice === 0 ? formData.price : formData.discountPrice,
+        Number(formData.discountPrice) === 0
+          ? formData.price
+          : formData.discountPrice,
       stock: totalStock,
     };
+
+    console.log('update', updatedFormData);
 
     if (mode === 'new') {
       dispatch(createProduct(updatedFormData));
