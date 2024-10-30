@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ProductCard from './components/ProductCard';
 import { Row, Col, Container } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
@@ -9,20 +9,61 @@ import LoadingSpinner from '../../common/component/LoadingSpinner';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
-  const productList = useSelector((state) => state.product.productList);
   const loading = useSelector((state) => state.product.loading);
   const [query, setSearchParams] = useSearchParams();
-
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const observer = useRef(null);
+  const [list, setList] = useState([]);
+  const limit = 10;
+  const [target, setTarget] = useState(null);
   const name = query.get('name') || '';
-  const filterList = productList.filter((item) => item.status === 'active');
+
+  const fetchProducts = () => {
+    dispatch(getProductList({ name, limit, page })).then((res) => {
+      const newProducts = res.payload.data;
+      const totalPageNum = res.payload.total;
+
+      if (page >= totalPageNum || newProducts.length < limit) {
+        setHasMore(false);
+      }
+
+      setList((prevList) => [...prevList, ...newProducts]);
+    });
+  };
 
   useEffect(() => {
-    dispatch(getProductList({ name }));
-  }, [name, dispatch]);
+    if (hasMore) fetchProducts();
+  }, [page, name]);
+
+  useEffect(() => {
+    if (!hasMore) return;
+
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      },
+      {
+        threshold: 1.0,
+      }
+    );
+
+    const observerInstance = observer.current;
+
+    if (target) observerInstance.observe(target);
+
+    return () => {
+      if (observerInstance && target) observerInstance.unobserve(target);
+    };
+  }, [target, hasMore]);
 
   const moveAllProduct = () => setSearchParams({});
 
-  return loading ? (
+  const filterList = list.filter((item) => item.status === 'active');
+
+  return loading && page === 1 ? (
     <LoadingSpinner />
   ) : (
     <Container className={styles.landingPage}>
@@ -34,8 +75,14 @@ const LandingPage = () => {
       )}
       <Row>
         {filterList.length > 0 ? (
-          filterList.map((item) => (
-            <Col lg={3} md={6} sm={12} key={item._id}>
+          filterList.map((item, index) => (
+            <Col
+              lg={3}
+              md={6}
+              sm={12}
+              key={item._id}
+              ref={index === filterList.length - 1 ? setTarget : null}
+            >
               <ProductCard item={item} />
             </Col>
           ))
@@ -57,6 +104,7 @@ const LandingPage = () => {
           </div>
         )}
       </Row>
+      {!loading && page > 1 && <LoadingSpinner spot={true} height={'70px'} />}
     </Container>
   );
 };
