@@ -1,16 +1,5 @@
-.product-card-cart {
-  margin-bottom: 10px;
-}
 .qty-dropdown {
   max-width: 400px;
-}
-.trash-button {
-  background-color: white;
-  border: 1px solid gray;
-}
-.product-card-cart {
-  background-color: ghostwhite;
-  padding: 10px;
 }
 
 .payment-button {

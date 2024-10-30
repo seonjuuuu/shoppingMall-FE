@@ -1,10 +1,11 @@
-import React from "react";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Row, Col, Form } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch } from "react-redux";
-import { currencyFormat } from "../../../utils/number";
-import { updateQty, deleteCartItem } from "../../../features/cart/cartSlice";
+import React from 'react';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch } from 'react-redux';
+import { currencyFormat } from '../../../utils/number';
+import { updateQty, deleteCartItem } from '../../../features/cart/cartSlice';
+import styles from './CartProductCard.module.scss';
+
 const CartProductCard = ({ item }) => {
   const dispatch = useDispatch();
 
@@ -17,52 +18,51 @@ const CartProductCard = ({ item }) => {
   };
 
   return (
-    <div className="product-card-cart">
-      <Row>
-        <Col md={2} xs={12}>
+    <div className={styles.productCardCart}>
+      <div className={styles.productCard}>
+        <div className={styles.imageContainer}>
           <img src={item.productId.image} width={112} alt="product" />
-        </Col>
-        <Col md={10} xs={12}>
-          <div className="display-flex space-between">
-            <h3>{item.productId.name}</h3>
-            <button className="trash-button">
+        </div>
+        <div className={styles.detailsContainer}>
+          <div className={`${styles.flex} ${styles.spaceBetween}`}>
+            <h3 className={styles.productName}>{item.productId.name}</h3>
+            <button className={styles.trashButton}>
               <FontAwesomeIcon
-                icon={faTrash}
+                icon={faTimes}
                 width={24}
                 onClick={() => deleteCart(item._id)}
               />
             </button>
           </div>
 
-          <div>
-            <strong>₩ {currencyFormat(item.productId.price)}</strong>
+          <div className={styles.productInfo}>
+            <strong className={styles.productPrice}>
+              ₩ {currencyFormat(item.productId.discountPrice)}
+            </strong>
+            <div>사이즈: {item.size}</div>
+            <div className={styles.productNum}>
+              수량:
+              <select
+                onChange={(event) =>
+                  handleQtyChange(item._id, event.target.value)
+                }
+                required
+                defaultValue={item.qty}
+                className={styles.qtyDropdown}
+              >
+                {[...Array(10)].map((_, index) => (
+                  <option key={index} value={index + 1}>
+                    {index + 1}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={styles.productTotal}>
+              Total: ₩ {currencyFormat(item.productId.discountPrice * item.qty)}
+            </div>
           </div>
-          <div>Size: {item.size}</div>
-          <div>Total: ₩ {currencyFormat(item.productId.price * item.qty)}</div>
-          <div>
-            Quantity:
-            <Form.Select
-              onChange={(event) =>
-                handleQtyChange(item._id, event.target.value)
-              }
-              required
-              defaultValue={item.qty}
-              className="qty-dropdown"
-            >
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
-              <option value={6}>6</option>
-              <option value={7}>7</option>
-              <option value={8}>8</option>
-              <option value={9}>9</option>
-              <option value={10}>10</option>
-            </Form.Select>
-          </div>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
   );
 };
