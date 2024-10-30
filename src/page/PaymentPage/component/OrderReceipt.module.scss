@@ -40,6 +40,13 @@
   font-size: 14px;
 }
 
+.itemPrice {
+  width: 85px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 @media screen and (max-width: 63rem) {
   .receiptContainer {
     margin-bottom: 30px;

@@ -18,8 +18,11 @@ const OrderReceipt = ({ cartList, totalPrice }) => {
             <li key={index}>
               <div className={styles.itemList}>
                 <div>{item.productId.name}</div>
-                <div>
-                  ₩{currencyFormat(item.productId.discountPrice * item.qty)}
+                <div className={styles.itemPrice}>
+                  <span>₩</span>
+                  <span>
+                    {currencyFormat(item.productId.discountPrice * item.qty)}
+                  </span>
                 </div>
               </div>
             </li>
