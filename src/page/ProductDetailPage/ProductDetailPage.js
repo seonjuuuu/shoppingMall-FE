@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Container, Row, Col, Button, Dropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { currencyFormat } from '../../utils/number';
+import { currencyFormat, discountPercent } from '../../utils/number';
 import './style/productDetail.style.css';
 import { getProductDetail } from '../../features/product/productSlice';
 import { addToCart } from '../../features/cart/cartSlice';
 import LoadingSpinner from '../../common/component/LoadingSpinner';
+import styles from './ProductDetailPage.module.scss';
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
@@ -38,27 +39,48 @@ const ProductDetail = () => {
   }, [id, dispatch]);
 
   if (loading || !selectedProduct) return <LoadingSpinner />;
+
+  const salePrice = discountPercent(
+    selectedProduct.price,
+    selectedProduct.discountPrice
+  );
   return (
-    <Container className="product-detail-card">
+    <Container className={styles.productDetailCard}>
       <Row>
-        <Col sm={6}>
-          <img src={selectedProduct.image} className="w-100" alt="image" />
+        <Col sm={6} className={styles.productDetailImage}>
+          <img src={selectedProduct.image} className="w-100" alt="detail-img" />
         </Col>
-        <Col className="product-info-area" sm={6}>
-          <div className="product-info">{selectedProduct.name}</div>
-          <div className="product-info">
-            ₩ {currencyFormat(selectedProduct.discountPrice)}
+        <Col className={styles.productInfoArea} sm={6}>
+          <div className={styles.productNameArea}>
+            <div className={styles.productName}>{selectedProduct.name}</div>
           </div>
-          <div className="product-info">{selectedProduct.description}</div>
+          {salePrice > 0 && (
+            <div className={styles.originPrice}>
+              <div className={styles.discount}>{salePrice}%</div>
+              <div className={styles.origin}>
+                ₩ {currencyFormat(selectedProduct.price)}
+              </div>
+            </div>
+          )}
+          <div className={styles.productSale}>
+            <div className={styles.productDiscount}>
+              ₩ {currencyFormat(selectedProduct.discountPrice)}
+            </div>
+            {salePrice > 0 && <div className={styles.sale}>SALE</div>}
+          </div>
+
+          <div className={styles.productInfo}>
+            {selectedProduct.description}
+          </div>
 
           <Dropdown
-            className="drop-down size-drop-down"
+            className={styles.sizeDropDown}
             title={size}
             align="start"
             onSelect={(value) => selectSize(value)}
           >
             <Dropdown.Toggle
-              className="size-drop-down"
+              className={styles.sizeDropDown}
               variant={sizeError ? 'outline-danger' : 'outline-dark'}
               id="dropdown-basic"
               align="start"
@@ -66,7 +88,7 @@ const ProductDetail = () => {
               {size === '' ? '사이즈 선택' : size.toUpperCase()}
             </Dropdown.Toggle>
 
-            <Dropdown.Menu className="size-drop-down">
+            <Dropdown.Menu className={styles.sizeDropDown}>
               {Object.keys(selectedProduct.stock).length > 0 &&
                 Object.keys(selectedProduct.stock).map((item, index) =>
                   selectedProduct.stock[item] > 0 ? (
