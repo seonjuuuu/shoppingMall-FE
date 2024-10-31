@@ -121,10 +121,15 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    const newValue = Number(value);
+
+    if ((name === 'price' || name === 'discountPrice') && newValue < 0) {
+      return;
+    }
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: newValue,
     }));
   };
 
@@ -146,11 +151,14 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   };
 
   const handleStockChange = (value, index) => {
-    setStock((prevStock) =>
-      prevStock.map((item, idx) =>
-        idx === index ? [item[0], Number(value)] : item
-      )
-    );
+    const newValue = Number(value);
+    if (newValue >= 0) {
+      setStock((prevStock) =>
+        prevStock.map((item, idx) =>
+          idx === index ? [item[0], newValue] : item
+        )
+      );
+    }
   };
 
   const onHandleCategory = (event) => {
