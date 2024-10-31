@@ -123,13 +123,16 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
     const { name, value } = event.target;
     const newValue = Number(value);
 
-    if ((name === 'price' || name === 'discountPrice') && newValue < 0) {
+    if (
+      (name === 'price' || name === 'discountPrice') &&
+      (isNaN(newValue) || newValue < 0)
+    ) {
       return;
     }
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === 'price' || name === 'discountPrice' ? newValue : value,
     }));
   };
 
