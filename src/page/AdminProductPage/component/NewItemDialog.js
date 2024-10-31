@@ -129,7 +129,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: newValue,
+      [name]: value,
     }));
   };
 
