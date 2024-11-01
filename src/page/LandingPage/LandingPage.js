@@ -37,6 +37,12 @@ const LandingPage = () => {
   }, [page, name]);
 
   useEffect(() => {
+    setPage(1);
+    setHasMore(true);
+    setList([]);
+  }, [name]);
+
+  useEffect(() => {
     if (!hasMore) return;
 
     observer.current = new IntersectionObserver(
