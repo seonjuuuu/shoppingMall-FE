@@ -20,7 +20,9 @@ const LandingPage = () => {
   const name = query.get('name') || '';
 
   const fetchProducts = () => {
-    dispatch(getProductList({ name, limit, page })).then((res) => {
+    const query = name ? { name, limit, page } : { limit, page };
+
+    dispatch(getProductList(query)).then((res) => {
       const newProducts = res.payload.data;
       const totalPageNum = res.payload.total;
 
@@ -33,14 +35,14 @@ const LandingPage = () => {
   };
 
   useEffect(() => {
-    if (hasMore) fetchProducts();
-  }, [page, name]);
-
-  useEffect(() => {
     setPage(1);
     setHasMore(true);
     setList([]);
   }, [name]);
+
+  useEffect(() => {
+    if (hasMore) fetchProducts();
+  }, [page, name, hasMore]);
 
   useEffect(() => {
     if (!hasMore) return;
@@ -65,8 +67,12 @@ const LandingPage = () => {
     };
   }, [target, hasMore]);
 
-  const moveAllProduct = () => setSearchParams({});
-
+  const moveAllProduct = () => {
+    setSearchParams({});
+    setPage(1);
+    setHasMore(true);
+    setList([]);
+  };
   const filterList = list.filter((item) => item.status === 'active');
 
   return loading && page === 1 ? (
