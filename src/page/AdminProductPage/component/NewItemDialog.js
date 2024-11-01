@@ -102,8 +102,6 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
       stock: totalStock,
     };
 
-    console.log('update', updatedFormData);
-
     if (mode === 'new') {
       dispatch(createProduct(updatedFormData));
     } else {
