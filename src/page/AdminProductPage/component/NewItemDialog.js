@@ -13,6 +13,7 @@ import {
 } from '../../../features/product/productSlice';
 import styles from './NewItemDialog.module.scss';
 import { useSearchParams } from 'react-router-dom';
+import LoadingSpinner from '../../../common/component/LoadingSpinner';
 
 const InitialFormData = {
   name: '',
@@ -27,9 +28,8 @@ const InitialFormData = {
 };
 
 const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
-  const { error, success, selectedProduct } = useSelector(
-    (state) => state.product
-  );
+  const { error, success, selectedProduct, editLoading, createLoading } =
+    useSelector((state) => state.product);
   const [formData, setFormData] = useState(
     mode === 'new' ? { ...InitialFormData } : selectedProduct
   );
@@ -188,205 +188,211 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   }, [formData]);
 
   return (
-    <Modal show={showDialog} onHide={handleClose}>
-      <Modal.Header closeButton>
-        {mode === 'new' ? (
-          <Modal.Title>제품 등록</Modal.Title>
-        ) : (
-          <Modal.Title>제품 수정</Modal.Title>
-        )}
-      </Modal.Header>
-      {error && (
-        <div className="error-message">
-          <Alert variant="danger">{error}</Alert>
-        </div>
-      )}
-      <Form className="form-container" onSubmit={handleSubmit}>
-        <Row className="mb-3">
-          <Form.Group as={Col} controlId="sku">
-            <Form.Label>Sku</Form.Label>
-            <Form.Control
-              onChange={handleChange}
-              type="string"
-              placeholder="Enter Sku"
-              required
-              value={formData.sku}
-              name="sku"
-            />
-          </Form.Group>
-
-          <Form.Group as={Col} controlId="name">
-            <Form.Label>상품 이름</Form.Label>
-            <Form.Control
-              onChange={handleChange}
-              type="string"
-              placeholder="상품 이름"
-              required
-              value={formData.name}
-              name="name"
-            />
-          </Form.Group>
-        </Row>
-
-        <Form.Group className="mb-3" controlId="description">
-          <Form.Label>상품 설명</Form.Label>
-          <Form.Control
-            type="string"
-            placeholder="상품 설명"
-            as="textarea"
-            onChange={handleChange}
-            rows={3}
-            value={formData.description}
-            name="description"
-            required
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="stock">
-          <Form.Label className="mr-1">Stock</Form.Label>
-          {stockError && (
-            <span className="error-message">재고를 추가해주세요</span>
+    <>
+      {createLoading || editLoading ? (
+        <LoadingSpinner isBackground={true} />
+      ) : (
+        <Modal show={showDialog} onHide={handleClose}>
+          <Modal.Header closeButton>
+            {mode === 'new' ? (
+              <Modal.Title>제품 등록</Modal.Title>
+            ) : (
+              <Modal.Title>제품 수정</Modal.Title>
+            )}
+          </Modal.Header>
+          {error && (
+            <div className="error-message">
+              <Alert variant="danger">{error}</Alert>
+            </div>
           )}
-          <Button size="sm" onClick={addStock}>
-            Add +
-          </Button>
-          <div className="mt-2">
-            {stock.map((item, index) => (
-              <Row key={index} className="mt-1">
-                <Col sm={4}>
-                  <Form.Select
-                    onChange={(event) =>
-                      handleSizeChange(event.target.value, index)
-                    }
-                    required
-                    value={item[0] ? item[0].toLowerCase() : ''}
-                  >
-                    <option value="" disabled hidden>
-                      선택
-                    </option>
-                    {SIZE.map((item, index) => (
-                      <option
-                        value={item.toLowerCase()}
-                        disabled={stock.some(
-                          (size) => size[0] === item.toLowerCase()
-                        )}
-                        key={index}
+          <Form className="form-container" onSubmit={handleSubmit}>
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="sku">
+                <Form.Label>Sku</Form.Label>
+                <Form.Control
+                  onChange={handleChange}
+                  type="string"
+                  placeholder="Enter Sku"
+                  required
+                  value={formData.sku}
+                  name="sku"
+                />
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="name">
+                <Form.Label>상품 이름</Form.Label>
+                <Form.Control
+                  onChange={handleChange}
+                  type="string"
+                  placeholder="상품 이름"
+                  required
+                  value={formData.name}
+                  name="name"
+                />
+              </Form.Group>
+            </Row>
+
+            <Form.Group className="mb-3" controlId="description">
+              <Form.Label>상품 설명</Form.Label>
+              <Form.Control
+                type="string"
+                placeholder="상품 설명"
+                as="textarea"
+                onChange={handleChange}
+                rows={3}
+                value={formData.description}
+                name="description"
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="stock">
+              <Form.Label className="mr-1">Stock</Form.Label>
+              {stockError && (
+                <span className="error-message">재고를 추가해주세요</span>
+              )}
+              <Button size="sm" onClick={addStock}>
+                Add +
+              </Button>
+              <div className="mt-2">
+                {stock.map((item, index) => (
+                  <Row key={index} className="mt-1">
+                    <Col sm={4}>
+                      <Form.Select
+                        onChange={(event) =>
+                          handleSizeChange(event.target.value, index)
+                        }
+                        required
+                        value={item[0] ? item[0].toLowerCase() : ''}
                       >
-                        {item}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Col>
-                <Col sm={6}>
-                  <Form.Control
-                    onChange={(event) =>
-                      handleStockChange(event.target.value, index)
-                    }
-                    type="number"
-                    placeholder="number of stock"
-                    value={item[1]}
-                    required
-                  />
-                </Col>
-                <Col sm={2}>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => deleteStock(index)}
-                  >
-                    -
-                  </Button>
-                </Col>
-              </Row>
-            ))}
-          </div>
-        </Form.Group>
+                        <option value="" disabled hidden>
+                          선택
+                        </option>
+                        {SIZE.map((item, index) => (
+                          <option
+                            value={item.toLowerCase()}
+                            disabled={stock.some(
+                              (size) => size[0] === item.toLowerCase()
+                            )}
+                            key={index}
+                          >
+                            {item}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Col>
+                    <Col sm={6}>
+                      <Form.Control
+                        onChange={(event) =>
+                          handleStockChange(event.target.value, index)
+                        }
+                        type="number"
+                        placeholder="number of stock"
+                        value={item[1]}
+                        required
+                      />
+                    </Col>
+                    <Col sm={2}>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => deleteStock(index)}
+                      >
+                        -
+                      </Button>
+                    </Col>
+                  </Row>
+                ))}
+              </div>
+            </Form.Group>
 
-        <Form.Group className="mb-3" controlId="Image" required>
-          <Form.Label>상품 이미지</Form.Label>
-          <CloudinaryUploadWidget uploadImage={uploadImage} />
-          <img
-            id="uploadedImage"
-            src={formData.image || '/image/no-image.jpg'}
-            className={styles.uploadImage}
-            alt="uploadedImage"
-          />
-        </Form.Group>
+            <Form.Group className="mb-3" controlId="Image" required>
+              <Form.Label>상품 이미지</Form.Label>
+              <CloudinaryUploadWidget uploadImage={uploadImage} />
+              <img
+                id="uploadedImage"
+                src={formData.image || '/image/no-image.jpg'}
+                className={styles.uploadImage}
+                alt="uploadedImage"
+              />
+            </Form.Group>
 
-        <Row className="mb-3">
-          <Form.Group as={Col} controlId="price">
-            <Form.Label>정가</Form.Label>
-            <Form.Control
-              value={formData.price}
-              required
-              onChange={handleChange}
-              type="number"
-              placeholder="0"
-              name="price"
-            />
-          </Form.Group>
-          <Form.Group as={Col} controlId="discountPrice">
-            <Form.Label>
-              할인가
-              <span className={styles.info}>
-                * 미입력시(0 입력시) 자동으로 정가금액 셋팅 *
-              </span>
-            </Form.Label>
-            <Form.Control
-              value={formData.discountPrice}
-              required
-              onChange={handleChange}
-              type="number"
-              placeholder="0"
-              name="discountPrice"
-            />
-          </Form.Group>
-        </Row>
-        <Row className="mb-3">
-          <Form.Group as={Col} controlId="category">
-            <Form.Label>Category</Form.Label>
-            <Form.Control
-              as="select"
-              multiple
-              onChange={onHandleCategory}
-              value={formData.category}
-              required
-            >
-              {CATEGORY.map((item, idx) => (
-                <option key={idx} value={item.toLowerCase()}>
-                  {item}
-                </option>
-              ))}
-            </Form.Control>
-          </Form.Group>
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="price">
+                <Form.Label>정가</Form.Label>
+                <Form.Control
+                  value={formData.price}
+                  required
+                  onChange={handleChange}
+                  type="number"
+                  placeholder="0"
+                  name="price"
+                />
+              </Form.Group>
+              <Form.Group as={Col} controlId="discountPrice">
+                <Form.Label>
+                  할인가
+                  <span className={styles.info}>
+                    * 미입력시(0 입력시) 자동으로 정가금액 셋팅 *
+                  </span>
+                </Form.Label>
+                <Form.Control
+                  value={formData.discountPrice}
+                  required
+                  onChange={handleChange}
+                  type="number"
+                  placeholder="0"
+                  name="discountPrice"
+                />
+              </Form.Group>
+            </Row>
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="category">
+                <Form.Label>Category</Form.Label>
+                <Form.Control
+                  as="select"
+                  multiple
+                  onChange={onHandleCategory}
+                  value={formData.category}
+                  required
+                >
+                  {CATEGORY.map((item, idx) => (
+                    <option key={idx} value={item.toLowerCase()}>
+                      {item}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
 
-          <Form.Group as={Col} controlId="status">
-            <Form.Label>Status</Form.Label>
-            <Form.Select
-              value={formData.status}
-              onChange={handleChange}
-              name="status"
-              required
-            >
-              {STATUS.map((item, idx) => (
-                <option key={idx} value={item.toLowerCase()}>
-                  {item}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
-        </Row>
-        {mode === 'new' ? (
-          <Button variant="primary" type="submit">
-            등록
-          </Button>
-        ) : (
-          <Button variant="primary" type="submit">
-            Edit
-          </Button>
-        )}
-      </Form>
-    </Modal>
+              <Form.Group as={Col} controlId="status">
+                <Form.Label>Status</Form.Label>
+                <Form.Select
+                  value={formData.status}
+                  onChange={handleChange}
+                  name="status"
+                  required
+                >
+                  {STATUS.map((item, idx) => (
+                    <option key={idx} value={item.toLowerCase()}>
+                      {item}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Row>
+            {mode === 'new' ? (
+              <Button variant="primary" type="submit">
+                등록
+              </Button>
+            ) : (
+              <Button variant="primary" type="submit">
+                Edit
+              </Button>
+            )}
+          </Form>
+        </Modal>
+      )}
+    </>
   );
 };
 

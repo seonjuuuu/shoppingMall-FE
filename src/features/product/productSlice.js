@@ -107,6 +107,7 @@ const productSlice = createSlice({
     totalPageNum: 1,
     success: false,
     createLoading: false,
+    editLoading: false,
   },
   reducers: {
     setSelectedProduct: (state, action) => {
@@ -152,15 +153,15 @@ const productSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(editProduct.pending, (state) => {
-        state.loading = true;
+        state.editLoading = true;
       })
       .addCase(editProduct.fulfilled, (state) => {
-        state.loading = false;
+        state.editLoading = false;
         state.success = true;
         state.error = '';
       })
       .addCase(editProduct.rejected, (state, action) => {
-        state.loading = false;
+        state.editLoading = false;
         state.success = false;
         state.error = action.payload;
       })
