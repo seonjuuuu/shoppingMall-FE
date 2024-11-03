@@ -79,9 +79,6 @@ const LandingPage = () => {
     <LoadingSpinner />
   ) : (
     <Container className={styles.landingPage}>
-      <p className={styles.info}>
-        * 메인페이지는 인피니티 스크롤로 페이징 구현 *
-      </p>
       {name && filterList.length > 0 && (
         <div className={styles.searchInfo}>
           "<span className={styles.searchName}>{name}</span>" 에 대한 검색결과

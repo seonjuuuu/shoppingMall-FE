@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
@@ -6,12 +6,16 @@ import { currencyFormat } from '../../../utils/number';
 import { updateQty, deleteCartItem } from '../../../features/cart/cartSlice';
 import styles from './CartProductCard.module.scss';
 import { Link } from 'react-router-dom';
+import { BeatLoader } from 'react-spinners';
 
 const CartProductCard = ({ item }) => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleQtyChange = (id, value) => {
-    dispatch(updateQty({ id, value }));
+  const handleQtyChange = async (id, value) => {
+    setIsLoading(true);
+    await dispatch(updateQty({ id, value }));
+    setIsLoading(false);
   };
 
   const deleteCart = (id) => {
@@ -62,7 +66,14 @@ const CartProductCard = ({ item }) => {
               </select>
             </div>
             <div className={styles.productTotal}>
-              Total: ₩ {currencyFormat(item.productId.discountPrice * item.qty)}
+              Total:
+              {isLoading ? (
+                <div className={styles.loading}>
+                  <BeatLoader size={10} />
+                </div>
+              ) : (
+                ` ₩ ${currencyFormat(item.productId.discountPrice * item.qty)}`
+              )}
             </div>
           </div>
         </div>
