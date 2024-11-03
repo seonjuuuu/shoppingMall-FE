@@ -18,13 +18,12 @@ const CartProductCard = ({ item }) => {
     await dispatch(updateQty({ id, value }));
     setIsLoading(false);
   };
+
   const deleteCart = (id) => {
     if (!window.confirm('이 상품을 삭제하시겠습니까?')) return;
     setIsDeleting(true);
-
     setTimeout(() => {
       dispatch(deleteCartItem(id));
-      setIsDeleting(false);
     }, 500);
   };
 
