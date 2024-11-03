@@ -28,16 +28,14 @@ const CartProductCard = ({ item }) => {
   };
 
   return (
-    <div
-      className={`${styles.productCardCart} ${isDeleting ? styles.deleting : ''}`}
-    >
+    <div className={`${styles.productCardCart} `}>
       {isDeleting ? (
         <div className={styles.loadingContainer}>
           <BeatLoader size={10} />
           <span>삭제 중입니다...</span>
         </div>
       ) : (
-        <div className={styles.productCard}>
+        <div className={`${styles.productCard}`}>
           <Link
             to={`/product/${item.productId._id}`}
             className={styles.imageContainer}

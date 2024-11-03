@@ -79,27 +79,11 @@
   border-radius: 4px;
 }
 
-@keyframes slideOut {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-}
-
-.productCardCart {
-  &.deleting {
-    animation: slideOut 0.5s forwards;
-  }
-}
-
 .loadingContainer {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   gap: 10px;
   color: #888;
   font-size: 14px;
