@@ -78,3 +78,20 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.productCardCart {
+  &.deleting {
+    animation: slideOut 0.5s forwards;
+  }
+}

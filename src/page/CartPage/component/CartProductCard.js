@@ -11,6 +11,7 @@ import { BeatLoader } from 'react-spinners';
 const CartProductCard = ({ item }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleQtyChange = async (id, value) => {
     setIsLoading(true);
@@ -20,10 +21,16 @@ const CartProductCard = ({ item }) => {
 
   const deleteCart = (id) => {
     if (!window.confirm('이 상품을 삭제하시겠습니까?')) return;
-    dispatch(deleteCartItem(id));
+    setIsDeleting(true);
+    setTimeout(() => {
+      dispatch(deleteCartItem(id));
+    }, 500);
   };
+
   return (
-    <div className={styles.productCardCart}>
+    <div
+      className={`${styles.productCardCart} ${isDeleting ? styles.deleting : ''}`}
+    >
       <div className={styles.productCard}>
         <Link
           to={`/product/${item.productId._id}`}

@@ -12,7 +12,6 @@ const initialState = {
   getListLoading: false,
 };
 
-// Async thunk actions
 export const addToCart = createAsyncThunk(
   'cart/addToCart',
   async ({ id, size }, { rejectWithValue, dispatch }) => {
@@ -49,12 +48,24 @@ export const getCartList = createAsyncThunk(
   }
 );
 
+export const silentGetCartList = createAsyncThunk(
+  'cart/silentGetCartList',
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await api.get('/cart');
+      return res.data.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const deleteCartItem = createAsyncThunk(
   'cart/deleteCartItem',
   async (id, { rejectWithValue, dispatch }) => {
     try {
       const res = await api.delete(`/cart/${id}`);
-      dispatch(getCartList());
+      dispatch(silentGetCartList());
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -93,7 +104,6 @@ const cartSlice = createSlice({
     initialCart: (state) => {
       state.cartItemCount = 0;
     },
-    // You can still add reducers here for non-async actions if necessary
   },
   extraReducers: (builder) => {
     const calculateTotalPrice = (cartList) =>
@@ -162,6 +172,13 @@ const cartSlice = createSlice({
       })
       .addCase(updateQty.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(silentGetCartList.fulfilled, (state, action) => {
+        state.cartList = action.payload;
+        state.totalPrice = calculateTotalPrice(state.cartList);
+      })
+      .addCase(silentGetCartList.rejected, (state, action) => {
         state.error = action.payload;
       });
   },
