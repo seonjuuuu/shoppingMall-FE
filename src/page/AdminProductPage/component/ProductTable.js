@@ -14,7 +14,6 @@ const ProductTable = ({
   handleStatusUpdate,
 }) => {
   const [query] = useSearchParams();
-  console.log('item', data);
   const page = Number(query.get('page')) - 1 ?? 0;
   const limit = 5;
   const startIndex = limit * page + 1;

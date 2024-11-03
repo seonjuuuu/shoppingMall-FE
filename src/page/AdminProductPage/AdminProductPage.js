@@ -12,6 +12,7 @@ import {
   setSelectedProduct,
   getDeletedProduct,
   updateStatus,
+  silentGetProductList,
 } from '../../features/product/productSlice';
 import styles from './AdminProductPage.module.scss';
 import LoadingSpinner from '../../common/component/LoadingSpinner';
@@ -100,7 +101,7 @@ const AdminProductPage = () => {
   const handleStatusUpdate = (id, status) => {
     const changeStatus = status === 'active' ? 'inactive' : 'active';
     dispatch(updateStatus({ id, status: changeStatus })).then(() => {
-      dispatch(getProductList({ ...searchQuery }));
+      dispatch(silentGetProductList({ ...searchQuery }));
     });
   };
 

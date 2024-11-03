@@ -15,6 +15,18 @@ export const getProductList = createAsyncThunk(
   }
 );
 
+export const silentGetProductList = createAsyncThunk(
+  'products/silentGetProductList',
+  async (query, { rejectWithValue }) => {
+    try {
+      const res = await api.get('/product', { params: { ...query } });
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.error ?? error.message);
+    }
+  }
+);
+
 export const getProductDetail = createAsyncThunk(
   'products/getProductDetail',
   async (id, { rejectWithValue }) => {
@@ -108,6 +120,7 @@ const productSlice = createSlice({
     success: false,
     createLoading: false,
     editLoading: false,
+    statusLoading: false,
   },
   reducers: {
     setSelectedProduct: (state, action) => {
@@ -202,14 +215,21 @@ const productSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(updateStatus.pending, (state) => {
-        state.loading = true;
+        state.statusLoading = true;
       })
       .addCase(updateStatus.fulfilled, (state, action) => {
-        state.loading = false;
-        // state.selectedProduct = action.payload;
+        state.statusLoading = false;
       })
       .addCase(updateStatus.rejected, (state, action) => {
-        state.loading = false;
+        state.statusLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(silentGetProductList.fulfilled, (state, action) => {
+        state.productList = action.payload.data;
+        state.totalPageNum = action.payload.total;
+        state.error = '';
+      })
+      .addCase(silentGetProductList.rejected, (state, action) => {
         state.error = action.payload;
       });
   },
