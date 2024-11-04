@@ -1,0 +1,36 @@
+.container {
+  margin-top: 50px;
+}
+.heading {
+  font-size: 28px;
+}
+.paymentTitle {
+  font-size: 28px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.payButton {
+  margin-top: 30px;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.mobileReceiptArea {
+  display: none;
+}
+
+@media screen and (max-width: 63rem) {
+  .receiptArea {
+    display: none;
+  }
+  .mobileReceiptArea {
+    display: block;
+  }
+
+  /* .pay-button{
+      position: absolute;
+      bottom: 0;
+  } */
+}

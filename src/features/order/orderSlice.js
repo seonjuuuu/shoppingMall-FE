@@ -1,49 +1,70 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getCartQty } from "../cart/cartSlice";
-import api from "../../utils/api";
-import { showToastMessage } from "../common/uiSlice";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getCartQty } from '../cart/cartSlice';
+import api from '../../utils/api';
+import { showToastMessage } from '../common/uiSlice';
 
 // Define initial state
 const initialState = {
   orderList: [],
-  orderNum: "",
+  orderNum: '',
   selectedOrder: {},
-  error: "",
+  error: '',
   loading: false,
   totalPageNum: 1,
 };
 
 // Async thunks
 export const createOrder = createAsyncThunk(
-  "order/createOrder",
-  async (payload, { dispatch, rejectWithValue }) => {}
+  'order/createOrder',
+  async (payload, { dispatch, rejectWithValue }) => {
+    try {
+      const res = await api.post('/order', payload);
+      return res.data.orderNum;
+    } catch (error) {
+      return rejectWithValue(error.error ?? error.message);
+    }
+  }
 );
 
 export const getOrder = createAsyncThunk(
-  "order/getOrder",
+  'order/getOrder',
   async (_, { rejectWithValue, dispatch }) => {}
 );
 
 export const getOrderList = createAsyncThunk(
-  "order/getOrderList",
+  'order/getOrderList',
   async (query, { rejectWithValue, dispatch }) => {}
 );
 
 export const updateOrder = createAsyncThunk(
-  "order/updateOrder",
+  'order/updateOrder',
   async ({ id, status }, { dispatch, rejectWithValue }) => {}
 );
 
 // Order slice
 const orderSlice = createSlice({
-  name: "order",
+  name: 'order',
   initialState,
   reducers: {
     setSelectedOrder: (state, action) => {
       state.selectedOrder = action.payload;
     },
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(createOrder.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createOrder.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = '';
+        state.orderNum = action.payload;
+      })
+      .addCase(createOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
 });
 
 export const { setSelectedOrder } = orderSlice.actions;

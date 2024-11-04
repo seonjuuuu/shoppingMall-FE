@@ -8,6 +8,7 @@ import ToastMessage from '../common/component/ToastMessage';
 import { loginWithToken } from '../features/user/userSlice';
 import { getCartQty } from '../features/cart/cartSlice';
 import Footer from '../common/component/Footer';
+import styles from './AppLayout.module.scss';
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
@@ -38,7 +39,7 @@ const AppLayout = ({ children }) => {
       ) : (
         <>
           <Navbar user={user} />
-          {children}
+          <div className={styles.container}>{children}</div>
           <Footer />
         </>
       )}

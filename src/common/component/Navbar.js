@@ -18,6 +18,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
 import styles from './Navbar.module.scss';
+import { initialCart } from '../../features/cart/cartSlice';
 
 const Navbar = ({ user }) => {
   const dispatch = useDispatch();
@@ -68,6 +69,7 @@ const Navbar = ({ user }) => {
   }, []);
 
   const handleLogout = () => {
+    dispatch(initialCart());
     dispatch(logout());
     closeMenu();
   };
@@ -88,7 +90,7 @@ const Navbar = ({ user }) => {
   useEffect(() => {
     if (cartItemCount > 0) {
       setAnimate(true);
-      const timer = setTimeout(() => setAnimate(false), 500); // 애니메이션을 0.5초 후에 초기화
+      const timer = setTimeout(() => setAnimate(false), 500);
       return () => clearTimeout(timer);
     }
   }, [cartItemCount]);

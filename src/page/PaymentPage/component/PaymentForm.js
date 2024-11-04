@@ -1,7 +1,8 @@
-import React from "react";
-import { Col, Form, Row } from "react-bootstrap";
-import Cards from "react-credit-cards-2";
-import "react-credit-cards-2/dist/es/styles-compiled.css";
+import React from 'react';
+import { Col, Form, Row } from 'react-bootstrap';
+import Cards from 'react-credit-cards-2';
+import 'react-credit-cards-2/dist/es/styles-compiled.css';
+import styles from './PaymentForm.module.scss';
 
 const PaymentForm = ({
   handleInputFocus,
@@ -9,7 +10,7 @@ const PaymentForm = ({
   handlePaymentInfoChange,
 }) => {
   return (
-    <Row className="display-flex">
+    <Row className={styles.card}>
       <Col md={6} xs={12}>
         <Cards
           cvc={cardValue.cvc}
