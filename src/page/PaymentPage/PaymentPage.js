@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import OrderReceipt from './component/OrderReceipt';
 import PaymentForm from './component/PaymentForm';
-import './style/paymentPage.style.css';
 import { cc_expires_format, formatPhoneNumber } from '../../utils/number';
 import { createOrder } from '../../features/order/orderSlice';
 import styles from './PaymentPage.module.scss';
