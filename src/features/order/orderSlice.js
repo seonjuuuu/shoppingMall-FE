@@ -19,8 +19,10 @@ export const createOrder = createAsyncThunk(
   async (payload, { dispatch, rejectWithValue }) => {
     try {
       const res = await api.post('/order', payload);
+      dispatch(getCartQty());
       return res.data.orderNum;
     } catch (error) {
+      dispatch(showToastMessage({ status: 'error', message: error.error ?? error.message }));
       return rejectWithValue(error.error ?? error.message);
     }
   }
