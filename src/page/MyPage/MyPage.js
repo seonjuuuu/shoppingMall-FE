@@ -10,7 +10,6 @@ import styles from './MyPage.module.scss';
 const MyPage = () => {
   const dispatch = useDispatch();
   const { orderList } = useSelector((state) => state.order);
-  console.log(orderList);
   useEffect(() => {
     dispatch(getOrder());
   }, [dispatch]);

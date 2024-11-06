@@ -183,10 +183,6 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
     setFormData({ ...formData, image: url });
   };
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
   return (
     <>
       {createLoading || editLoading ? (
