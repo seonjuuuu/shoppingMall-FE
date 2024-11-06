@@ -58,8 +58,7 @@ const PaymentPage = () => {
     const { name, value } = event.target;
     if (name === 'contact') {
       let newValue = formatPhoneNumber(value);
-      console.log('value', newValue);
-      setCardValue({ ...cardValue, [name]: newValue });
+      setShipInfo({ ...shipInfo, [name]: newValue });
       return;
     }
     setShipInfo({ ...shipInfo, [name]: value });
@@ -118,7 +117,7 @@ const PaymentPage = () => {
                     onChange={handleFormChange}
                     required
                     name="contact"
-                    value={cardValue.contact}
+                    value={shipInfo.contact}
                   />
                 </Form.Group>
 
