@@ -3,12 +3,10 @@ import { Container, Form, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { GoogleLogin } from '@react-oauth/google';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import { loginWithEmail, loginWithGoogle } from '../../features/user/userSlice';
 import { clearErrors } from '../../features/user/userSlice';
 import styles from './LoginPage.module.scss';
 import LoadingSpinner from '../../common/component/LoadingSpinner';
-const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -45,7 +43,16 @@ const Login = () => {
   };
 
   const handleGoogleLogin = async (googleData) => {
-    //구글 로그인 하기
+    dispatch(loginWithGoogle(googleData.credential))
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((error
+        ) => {
+        console.error('Login Error:', error);
+        setIsLoading(false);
+      }
+    );
   };
 
   return (
@@ -93,14 +100,12 @@ const Login = () => {
           <div className={styles.google}>
             <p className={styles.googleText}>외부 계정으로 로그인하기</p>
             <div className="display-center">
-              <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
                 <GoogleLogin
                   onSuccess={handleGoogleLogin}
                   onError={() => {
                     console.log('Login Failed');
                   }}
                 />
-              </GoogleOAuthProvider>
             </div>
           </div>
         </Form>
