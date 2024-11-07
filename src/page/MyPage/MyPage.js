@@ -6,13 +6,20 @@ import OrderStatusCard from './component/OrderStatusCard';
 import './style/orderStatus.style.css';
 import { getOrder } from '../../features/order/orderSlice';
 import styles from './MyPage.module.scss';
+import LoadingSpinner from '../../common/component/LoadingSpinner';
 
 const MyPage = () => {
   const dispatch = useDispatch();
-  const { orderList } = useSelector((state) => state.order);
+  const { orderList, loading } = useSelector((state) => state.order);
   useEffect(() => {
     dispatch(getOrder());
   }, [dispatch]);
+
+  if (loading) {
+    return (
+      <LoadingSpinner />
+    );
+  }
 
   if (orderList?.length === 0) {
     return (
